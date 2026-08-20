@@ -6,20 +6,21 @@ const Hero = () => (
     </div>
 
     <div className="casaley-hero__chrome">
-      <div className="casaley-hero__topline">
-        <span className="casaley-eyebrow">A turnkey collection at Officer</span>
+      <div className="casaley-hero__top">
+        <div className="casaley-hero__topline">
+          <span className="casaley-eyebrow">A turnkey collection at Officer</span>
+        </div>
 
-      </div>
-
-      <div className="casaley-hero__mark-row">
-        <img src="./assets/casaley-wordmark-dusty-pink.svg" alt="Casaley" className="casaley-hero__wordmark" />
-      </div>
-
-      <div className="casaley-hero__bottom">
         <p className="casaley-hero__lede">
           A hidden gem taking shape in Officer —<br />
           finished homes, ready from day one.
         </p>
+      </div>
+
+      <div className="casaley-hero__bottom">
+        <div className="casaley-hero__mark-row">
+          <img src="./assets/casaley-wordmark-keyline.svg" alt="Casaley" className="casaley-hero__wordmark" />
+        </div>
         <button type="button" className="casaley-hero__mobile-cta" data-action="register">
           Register your interest
         </button>
