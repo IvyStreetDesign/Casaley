@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Casaley brand pattern - seamless tile, 98.065 x 108.72 -->
+<!-- Casaley brand pattern, rebuilt from "Casaley pattern.pdf" as a seamless tile. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 98.065 108.72" width="98.065" height="108.72">
-  <g fill="none" stroke="currentColor" stroke-width="1.09">
+  <g fill="none" stroke="#000" stroke-width="1.09" stroke-opacity="0.14">
     <path d="M0 0H98.065"/>
     <path d="M0 0V54.36"/>
     <path d="M0 54.36L53.54 108.72"/>

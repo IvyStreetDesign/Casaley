@@ -1,98 +1,116 @@
-# Casaley Officer — one-page site
+# Casaley Officer
 
-A single-page marketing site for the Casaley housing development at Officer,
-Victoria. Static HTML, CSS and vanilla JS — no build step, no framework, no
-runtime dependencies.
+A one-page site for the Casaley housing development at Officer, Victoria.
 
-```
-index.html
-css/
-  fonts.css        Host Grotesk @font-face declarations
-  styles.css       Design tokens, layout, components, scroll-reveal states
-js/
-  main.js          Scroll reveals, hero parallax, sticky nav, drawer, form
-assets/
-  brand/           Wordmarks and lockups (SVG)
-  fonts/           Host Grotesk variable woff2 (~67 KB total)
-  img/             Photography
-  pattern/         The Casaley line pattern as a seamless tile
-```
+It is a **structural clone of the Alba Parkdale site**, reskinned with the
+Casaley brand. Layout, component structure, scroll behaviour, interaction
+model, motion curves and durations are carried over unchanged; colour, type,
+imagery, texture and copy are Casaley's.
 
-Open `index.html` directly, or serve the folder:
+## Running it
+
+No build step. Serve the folder:
 
 ```sh
 python3 -m http.server 8000
 ```
 
+JSX is compiled in the browser by Babel Standalone, exactly as Alba does it.
+React, ReactDOM and Babel load from unpkg with the same pinned versions and
+SRI hashes as Alba, so an internet connection is required on first load.
+
+## File map — Alba → Casaley
+
+Every Alba file has a one-to-one counterpart. Only the two colour-named
+section components were renamed, because Casaley's equivalents are pink and
+orange rather than beige and yellow.
+
+| Alba | Casaley | Notes |
+| --- | --- | --- |
+| `index.html` | `index.html` | Identical App shell, scroll model and effects |
+| `colors_and_type.css` | `colors_and_type.css` | Same token architecture, Casaley values |
+| `website.css` | `website.css` | Same selectors in the same order |
+| `Header.jsx` | `Header.jsx` | |
+| `Hero.jsx` | `Hero.jsx` | |
+| `RegisterForm.jsx` | `RegisterForm.jsx` | |
+| `BeigeSection.jsx` | `PinkSection.jsx` | The editorial / three-moment section |
+| `YellowSection.jsx` | `OrangeSection.jsx` | The atmospheric statement section |
+| `Footer.jsx` | `Footer.jsx` | |
+| `404.html`, `privacy-policy.html`, `disclaimer.html` | same | |
+
+## Behaviour carried over
+
+Verified side by side against the Alba build at 1440px and 800px — all of
+these match exactly:
+
+- **Fixed hero, scrolling curtain.** The hero is `position: fixed` at
+  `z-index: 1` behind a `100vh` spacer; the editorial section scrolls up over
+  it at `z-index: 2`.
+- **Header reveal** at 20vh of scroll.
+- **Register panel.** Open by default on desktop only. Auto-closes once past
+  20vh, re-opens on scrolling back into the hero — unless the user closed it
+  by hand, which is tracked separately so auto-reopen never fights them.
+- **Register tab.** Vertical pull-tab on the right edge, revealed with the
+  header; docks to the bottom on mobile.
+- **Delegated CTAs.** Any `[data-action="register"]` anywhere on the page
+  opens the panel.
+- **Moment crossfade.** The sticky image column swaps as each moment's centre
+  passes 92% of viewport height; inactive moments sit at `opacity: 0.12` and
+  fade up over 2400ms.
+- **Sticky top** computed once per resize rather than on scroll, to keep the
+  sticky element from jittering.
+- Mobile: sticky column hidden, per-moment images shown inline.
+
 ## Brand implementation
 
-**Colour.** The four brand colours were sampled straight out of the master
-brandmark SVGs, so they are exact rather than eyeballed:
+**Colour.** Sampled from the supplied master brandmark SVGs, not eyeballed:
 
-| Token | Hex | Source file |
+| Token | Hex | Role (Alba equivalent) |
 | --- | --- | --- |
-| `--royal-blue` | `#34469d` | `Casaley - Master Brandmark ROYAL BLUE RGB.svg` |
-| `--dusty-pink` | `#e4c3bc` | `Casaley - Master Brandmark DUSTY PINK RGB.svg` |
-| `--red-velvet` | `#8b4749` | `Casaley - Master Brandmark RED VELVET RGB.svg` |
-| `--spicy-orange` | `#df5a3a` | `Casaley - Master Brandmark SPICY ORANGE RGB.svg` |
+| `--casaley-royal-blue` | `#34469d` | Primary dark — headings, CTAs (walnut) |
+| `--casaley-pink-light` | `#f2e2dd` | Page ground, editorial section (beige) |
+| `--casaley-pink` | `#e4c3bc` | Deeper pink surfaces |
+| `--casaley-velvet` | `#8b4749` | Register panel and tab (powder blue) |
+| `--casaley-orange` | `#df5a3a` | Atmospheric statement section (yellow) |
 
-Both brand gradients are also tokenised (`--gradient-one` orange→blue,
-`--gradient-two` pink→orange). Gradient two carries the pillars section.
+Blue type on the orange section follows the brand's own poster artwork.
 
-**Brandmark.** `assets/brand/casaley-lockup-*.svg` are the supplied master
-files, untouched. Two derivatives were generated from them by isolating the
-CASALEY letterforms from the OFFICER sub-text:
-
-- `casaley-wordmark.svg` — solid, `currentColor`
-- `casaley-wordmark-outline.svg` — stroked, used inline for the giant hero
-  wordmark so its colour and stroke weight stay under CSS control
+**Brandmark.** Alba tints one wordmark with CSS filters. Casaley ships four
+master colourways, so each placement references the correct file directly —
+truer to the artwork than filtering.
 
 **Pattern.** `Casaley pattern.pdf` was decomposed to its underlying geometry
-and rebuilt as a seamless 98.065 × 108.72 tile
-(`assets/pattern/casaley-pattern.svg`). In CSS it is applied through the
-`--pattern` token as a data URI; any section gets it by taking the
-`.patterned` class, with per-section strength via `--pattern-opacity`.
+and rebuilt as a seamless 98.065 × 108.72 tile (`assets/pattern-tile.svg`).
+It replaces Alba's two photographic textures: the header bar (at bar height,
+so it reads as fine texture) and the statement section (at full brand scale,
+multiplied, as in the brand collateral).
 
-**Chamfer.** The clipped corners of the letterforms are abstracted into two
-`clip-path` tokens: `--chamfer` (poster-weight, used for the outline motif
-over the feature render) and `--chamfer-soft` (restrained, used on panels
-carrying copy).
+**Type.** Alba pairs Moret with Maison Neue. Casaley runs a single-family
+system — Host Grotesk across display, body and utility roles, separated by
+weight and tracking. Self-hosted as a variable woff2 (~67 KB total). To serve
+the Adobe Fonts (Typekit) cut instead, delete the four `@font-face` blocks in
+`colors_and_type.css` and add your kit to `index.html`.
 
-**Type.** Host Grotesk, variable weight 300–800, self-hosted so the page makes
-no third-party request. To serve the Adobe Fonts (Typekit) cut instead, swap
-the `css/fonts.css` link in `index.html` for your kit — `--font` already asks
-for `"Host Grotesk"` first, so nothing else changes.
-
-## Motion
-
-All of it degrades cleanly and is fully disabled under
-`prefers-reduced-motion: reduce`.
-
-- **Scroll reveal** — `IntersectionObserver` fades and lifts elements once as
-  they enter view; `--reveal-delay` staggers groups.
-- **Wipe reveal** — images uncover with a `clip-path` inset. The clip sits on
-  the inner `<img>`, not the observed element: Chromium factors an element's
-  own `clip-path` into its intersection rect, so a fully clipped target would
-  never trigger its own observer.
-- **Hero parallax** — the photograph drifts down while the outline wordmark
-  rises, so the two separate as the hero scrolls away. Driven by CSS custom
-  properties set inside a `requestAnimationFrame` callback.
-- **Line rise** — the `Opportunity Unearthed` headline animates per line.
-- **Sticky bar** — appears past the hero, retracts while scrolling down,
-  returns on any upward scroll.
-- **Drawer** — full-screen menu with a `clip-path` sweep and staggered links;
-  traps nothing but closes on Escape, on link click, and on the close button.
+**Imagery.** Extracted from the supplied `Casaley website.pdf`. Three
+photographs plus one tighter crop (`detail.jpg`) for the sticky column's
+resting state.
 
 ## Before this goes live
 
-- **Enquiry form** has no endpoint. Add `data-endpoint="https://…"` to
-  `#enquiryForm` and it will POST the fields as JSON; without it the handler
-  says so rather than pretending to send. Validation already runs either way.
-- **Contact details** (`hello@casaley.com.au`, `1300 000 000`) are
-  placeholders throughout `index.html` and the footer.
-- **Home names, descriptions and specifications** in the Homes section are
-  indicative and need replacing with the real release. No pricing is stated
-  anywhere by design.
-- **Location list** names real Officer landmarks but deliberately carries no
-  distances or travel times — add them once confirmed.
-- **Legal links** (privacy policy, disclaimer) point at `#`.
+- **Register form has no endpoint.** `handleSubmit` in `RegisterForm.jsx`
+  fakes the confirmation, same as Alba's. Wire it to your CRM or a form
+  service.
+- **Footer credits are em-dash placeholders.** The consultant team wasn't
+  supplied. `credits` at the top of `Footer.jsx` takes a name and optional
+  href per slot; restore `<img>` logos there if you'd rather.
+- **Hero is a still.** Alba's hero runs a looping `alba.mp4`. No Casaley video
+  was supplied, so `Hero.jsx` uses `hero.jpg`. The CSS already styles
+  `.casaley-hero__image video` identically — drop a video in and swap the tag.
+- **Legal pages are placeholder copy.** Generic Australian Privacy Principles
+  boilerplate with the entity left unnamed. Needs the client's own policy and
+  legal review.
+- **"A turnkey collection at Officer"** stands in for Alba's "A collection by
+  DM Property" — replace with the developer's name once confirmed.
+- **Product options** in the register form (3 / 4 bedroom) are indicative.
+  Alba's "Price range" field was swapped for "Enquiring as" rather than invent
+  price brackets; restore a price field if you have the real bands.
