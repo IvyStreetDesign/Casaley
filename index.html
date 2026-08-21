@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Casaley Officer — a collection of finished, turnkey homes in Officer, offering a simple way to invest in one of Melbourne's growing communities.">
+<link rel="icon" href="./assets/casaley-wordmark-royal-blue.svg">
+<title>Casaley Officer</title>
+<link rel="stylesheet" href="./colors_and_type.css">
+<link rel="stylesheet" href="./website.css">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<!--
+  Component scripts are loaded individually here because this prototype uses
+  Babel Standalone (in-browser JSX compilation) with no build step.
+  Each component assigns itself to window (e.g. window.Header = Header) so
+  that later scripts can reference it — the equivalent of ES module exports.
+  In production these would be proper import/export with a bundler (Vite/Next.js).
+-->
+<script type="text/babel" src="./Header.jsx"></script>
+<script type="text/babel" src="./Hero.jsx"></script>
+<script type="text/babel" src="./RegisterForm.jsx"></script>
+<script type="text/babel" src="./PinkSection.jsx"></script>
+<script type="text/babel" src="./OrangeSection.jsx"></script>
+<script type="text/babel" src="./Footer.jsx"></script>
+
+<script type="text/babel">
+  const App = () => {
+    // The register panel is opened deliberately via the Register Now tab (or
+    // any [data-action="register"] control) — it never opens on its own.
+    const [formOpen, setFormOpen] = React.useState(false);
+    const [headerRevealed, setHeaderRevealed] = React.useState(false);
+
+    // Reveal the fixed header only once the hero fold has scrolled past, so it
+    // never sits over the opening fold.
+    React.useEffect(() => {
+      const onScroll = () => {
+        const hero = document.querySelector(".casaley-hero");
+        const threshold = hero ? hero.offsetHeight - 72 : window.innerHeight;
+        setHeaderRevealed(window.scrollY > threshold);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      onScroll();
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+      };
+    }, []);
+
+    // Delegated click handler — any element with data-action="register" anywhere
+    // in the page will open the form without needing to wire up individual callbacks.
+    React.useEffect(() => {
+      const onClick = (e) => {
+        const btn = e.target.closest("[data-action='register']");
+        if (btn) { setFormOpen(true); btn.blur(); }
+      };
+      document.addEventListener("click", onClick);
+      return () => document.removeEventListener("click", onClick);
+    }, []);
+
+    return (
+      <div className="casaley-page" id="top">
+        <Header revealed={headerRevealed} formOpen={formOpen} onRegisterClick={() => setFormOpen(true)} />
+        <Hero />
+        <PinkSection />
+        <OrangeSection />
+        <Footer />
+        <RegisterForm
+          open={formOpen}
+          onOpen={() => setFormOpen(true)}
+          onClose={() => setFormOpen(false)}
+        />
+      </div>
+    );
+  };
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
