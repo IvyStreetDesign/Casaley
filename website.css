@@ -45,101 +45,136 @@ a { color: inherit; text-decoration: none; }
 }
 .casaley-header__cta:hover { background: var(--casaley-orange-deep); }
 
-/* === Hero (sits behind the curtain) =========================== */
+/* === Hero — the "Opportunity Unearthed" fold =================== */
+/* A normal-flow fold on the royal-blue field: a framed streetscape with the
+   eyebrow + lede over it, the CASALEY keyline straddling the image's lower
+   edge, and the Opportunity Unearthed intro on the blue below. */
 .casaley-hero {
-  position: fixed; top: 0; left: 0; right: 0;
-  z-index: 1;
-  height: 100vh;
-  background: var(--casaley-royal-blue);
+  position: relative;
+  background: var(--casaley-royal-blue) var(--pattern-tile) 0 0 / var(--pattern-size) repeat;
   color: var(--casaley-pink-light);
+  padding: clamp(18px, 2.4vw, 34px) clamp(20px, 3vw, 48px) clamp(48px, 7vw, 96px);
   overflow: hidden;
 }
-.casaley-hero-spacer { height: 100vh; }
-.casaley-hero__image { position: absolute; inset: 0; }
-.casaley-hero__image img,
-.casaley-hero__image video {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transform: scale(1.02);
+.casaley-mobile-br { display: none; }
+
+/* Stage reserves room below the frame for the lower half of the straddling
+   wordmark. The keyline aspect is ~3.4:1 and it spans 100vw, so half its
+   height is ~100vw / 6.8 ≈ 15vw — the padding below tracks that. */
+.casaley-hero__stage { position: relative; padding-bottom: 15vw; }
+
+.casaley-hero__frame {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+.casaley-hero__frame img {
+  width: 100%; height: 100%; object-fit: cover; object-position: center 64%;
+  display: block;
 }
 .casaley-hero__veil {
   position: absolute; inset: 0;
-  background:
-    linear-gradient(180deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.18) 28%, rgba(0,0,0,0.22) 60%, rgba(0,0,0,0.62) 100%);
+  background: linear-gradient(180deg, rgba(0,0,0,0.34) 0%, rgba(0,0,0,0.06) 32%, rgba(0,0,0,0) 58%);
 }
 
-.casaley-hero__chrome {
-  position: relative; z-index: 2;
-  height: 100%;
-  padding: 40px 48px 60px;
-  display: flex; flex-direction: column; justify-content: space-between;
-  padding-right: calc(440px + 48px);
+.casaley-hero__over {
+  position: absolute; z-index: 2;
+  top: clamp(20px, 2.4vw, 36px);
+  left: clamp(20px, 2.4vw, 36px);
+  right: clamp(20px, 2.4vw, 36px);
+  display: flex; flex-direction: column; gap: clamp(12px, 1.6vw, 22px);
 }
-
-/* Mock arrangement: eyebrow + intro copy cluster at the top, keyline
-   wordmark anchored at the bottom (chrome uses space-between). */
-.casaley-hero__top { display: flex; flex-direction: column; gap: clamp(16px, 2vw, 26px); }
-
-.casaley-hero__topline {
-  display: flex; justify-content: space-between; align-items: center;
-  color: rgba(242,226,221,0.8);
-}
-.casaley-hero__topline .casaley-eyebrow { color: rgba(242,226,221,0.85); }
-
-.casaley-hero__mark-row { display: flex; align-items: flex-start; gap: 18px; }
-.casaley-hero__wordmark {
-  display: block;
-  /* CASALEY-only keyline is a wider mark than the full lockup, so it spans
-     most of the hero content width rather than sitting to one side. */
-  width: min(100%, 1040px);
-  height: auto;
-}
-
-.casaley-hero__bottom { display: flex; flex-direction: column; gap: 24px; }
-.casaley-hero__mobile-cta { display: none; }
-.casaley-mobile-br { display: none; }
-
+.casaley-hero__eyebrow { color: rgba(255,255,255,0.85); }
 .casaley-hero__lede {
-  font-family: var(--font-display); font-weight: 500;
+  font-family: var(--font-display); font-weight: 700;
   font-size: clamp(20px, 2.2vw, 30px);
-  line-height: 1.25;
+  line-height: 1.22;
   letter-spacing: var(--track-tight);
   margin: 0; max-width: 560px;
-  color: var(--casaley-pink-light);
+  color: #fff;
 }
 
+/* Full-bleed keyline straddling the frame's lower edge (letters cut at the
+   viewport edges). Vertically centred on the frame bottom by the stage's
+   reserved padding. */
+.casaley-hero__wordmark {
+  position: absolute; z-index: 3;
+  left: 50%; bottom: 0; transform: translateX(-50%);
+  width: 100vw; height: auto;
+  pointer-events: none;
+}
+
+.casaley-hero__intro {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 5vw, 72px);
+  align-items: start;
+  margin-top: clamp(20px, 3.5vw, 48px);
+}
+.casaley-hero__intro-title {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(40px, 5.4vw, 82px);
+  line-height: 0.98; letter-spacing: var(--track-display);
+  margin: 0; color: var(--casaley-pink);
+}
+.casaley-hero__intro-body { display: flex; flex-direction: column; max-width: 52ch; }
+.casaley-hero__intro-lead {
+  font-family: var(--font-sans); font-weight: 700;
+  font-size: clamp(16px, 1.15vw, 18px); line-height: 1.4;
+  margin: 0 0 14px; color: #fff;
+}
+.casaley-hero__intro-copy {
+  font-family: var(--font-sans); font-weight: 400;
+  font-size: clamp(15px, 1.05vw, 17px); line-height: 1.55;
+  margin: 0; color: rgba(242,226,221,0.9);
+}
+.casaley-hero__intro-cta {
+  align-self: center;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-top: clamp(24px, 3.2vw, 44px);
+  padding: 15px 44px;
+  background: var(--casaley-velvet); color: var(--casaley-pink-light);
+  font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+.casaley-hero__intro-cta:hover { background: var(--casaley-velvet-deep); }
+
 /* === Register form ============================================ */
+/* The tab is the only way in — always visible (the panel no longer opens on
+   its own), spicy orange, and prominent. */
 .casaley-rf__tab {
-  position: fixed; top: 50%; right: 0; transform: translateY(-50%);
-  z-index: 3;
-  width: 48px; height: 200px;
-  background: var(--casaley-royal-blue);
-  color: var(--casaley-pink-light);
+  position: fixed; top: 42%; right: 0; transform: translateY(-50%);
+  z-index: 45;
+  width: 58px; height: 310px;
+  background: var(--casaley-orange);
+  color: #fff;
   border: 0;
   border-radius: 4px 0 0 4px;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center; flex-direction: column;
-  gap: 14px;
-  box-shadow: -6px 0 22px -10px rgba(38,52,116,0.30);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--dur-base) var(--ease-soft),
-              transform var(--dur-base) var(--ease-soft),
+  gap: 16px;
+  box-shadow: -8px 0 26px -12px rgba(38,52,116,0.35);
+  transition: transform var(--dur-base) var(--ease-soft),
               background-color var(--dur-fast) var(--ease-out);
 }
-.casaley-rf__tab.is-revealed { opacity: 1; pointer-events: auto; }
 .casaley-rf__tab svg { stroke: currentColor; }
 .casaley-rf__tab span {
   writing-mode: vertical-rl; transform: rotate(180deg);
-  font-size: 11px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
 }
-.casaley-rf__tab:hover { background: var(--casaley-royal-blue-deep); }
-.casaley-rf__tab.is-hidden { transform: translate(60px, -50%); pointer-events: none; opacity: 0; }
+.casaley-rf__tab:hover { background: var(--casaley-orange-deep); }
+.casaley-rf__tab.is-hidden { transform: translate(80px, -50%); pointer-events: none; }
 
+/* Panel is a partial-opacity spicy-orange sheet, so the keyline and pattern
+   read through it when open. */
 .casaley-rf {
   position: fixed; top: 0; right: 0; bottom: 0;
   z-index: 50;
-  width: 440px; max-width: 92vw;
-  background: var(--casaley-royal-blue);
+  width: 480px; max-width: 92vw;
+  background: rgba(223, 90, 58, 0.88);
   color: var(--casaley-pink-light);
   transform: translateX(100%);
   box-shadow: -10px 0 40px -16px rgba(38,52,116,0);
@@ -147,7 +182,7 @@ a { color: inherit; text-decoration: none; }
               box-shadow 800ms cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
 }
-.casaley-rf.is-open { transform: translateX(0); box-shadow: -10px 0 40px -16px rgba(38,52,116,0.35); }
+.casaley-rf.is-open { transform: translateX(0); box-shadow: -10px 0 40px -16px rgba(38,52,116,0.4); }
 .casaley-rf__inner { padding: 32px 40px 40px; min-height: 100%; display: flex; flex-direction: column; gap: 22px; }
 
 .casaley-rf__head { display: flex; align-items: center; justify-content: space-between; }
@@ -199,14 +234,14 @@ a { color: inherit; text-decoration: none; }
 .casaley-rf__submit {
   font-family: var(--font-sans);
   font-size: 11px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase;
-  background: var(--casaley-pink); color: var(--casaley-royal-blue);
+  background: var(--casaley-royal-blue); color: var(--casaley-pink-light);
   border: 0; border-radius: var(--radius-sm);
   padding: 16px 24px;
   margin-top: 8px;
   cursor: pointer;
   transition: background-color var(--dur-fast) var(--ease-out);
 }
-.casaley-rf__submit:hover { background: var(--casaley-pink-deep); }
+.casaley-rf__submit:hover { background: var(--casaley-royal-blue-deep); }
 
 .casaley-rf__legal { font-size: 11px; line-height: 1.5; color: rgba(242,226,221,0.75); margin: 0; }
 .casaley-rf__legal a { border-bottom: 1px solid rgba(242,226,221,0.5); padding-bottom: 1px; }
@@ -215,8 +250,7 @@ a { color: inherit; text-decoration: none; }
 .casaley-pink {
   position: relative; z-index: 2;
   background: var(--casaley-pink-light);
-  padding: 128px 48px 12vh;
-  box-shadow: 0 -24px 60px -28px rgba(38, 52, 116, 0.35);
+  padding: clamp(88px, 12vw, 148px) 48px 12vh;
 }
 .casaley-pink__inner { max-width: 1280px; margin: 0 auto; }
 .casaley-pink__head { max-width: 720px; margin-bottom: 20vh; }
@@ -475,26 +509,14 @@ a { color: inherit; text-decoration: none; }
 
 /* === Responsive ============================================== */
 @media (max-width: 980px) {
-  .casaley-hero__chrome { padding: 32px 24px 64px; justify-content: space-between; }
-  .casaley-hero__wordmark { width: 100%; }
-  .casaley-hero__mobile-cta {
-    display: inline-flex; align-self: flex-start;
-    font-family: var(--font-sans); font-size: 11px; font-weight: 600;
-    letter-spacing: 0.22em; text-transform: uppercase;
-    background: transparent;
-    color: var(--casaley-pink-light);
-    border: 1px solid rgba(242,226,221,0.6);
-    border-radius: var(--radius-sm);
-    padding: 13px 20px;
-    cursor: pointer;
-    transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
-  }
-  .casaley-hero__mobile-cta:hover { background: rgba(242,226,221,0.12); border-color: rgba(242,226,221,0.9); }
-  .casaley-rf { width: 100%; bottom: 0; top: auto; max-height: 80vh; transform: translateY(100%); border-radius: 16px 16px 0 0; }
+  .casaley-hero__stage { padding-bottom: 17vw; }
+  .casaley-hero__intro { grid-template-columns: 1fr; gap: clamp(18px, 4vw, 28px); }
+  .casaley-hero__intro-cta { align-self: flex-start; }
+  .casaley-rf { width: 100%; bottom: 0; top: auto; max-height: 82vh; transform: translateY(100%); border-radius: 16px 16px 0 0; }
   .casaley-rf.is-open { transform: translateY(0); }
-  .casaley-rf__tab { top: auto; bottom: 0; right: 16px; transform: translateY(100%); width: auto; height: 48px; padding: 0 18px; border-radius: 4px 4px 0 0; flex-direction: row; gap: 8px; }
+  .casaley-rf__tab { top: auto; bottom: 0; right: 16px; transform: none; width: auto; height: 46px; padding: 0 22px; border-radius: 4px 4px 0 0; flex-direction: row; gap: 8px; }
   .casaley-rf__tab span { writing-mode: horizontal-tb; transform: none; }
-  .casaley-rf__tab.is-hidden { transform: translateY(0) translateY(60px); }
+  .casaley-rf__tab.is-hidden { transform: translateY(120%); }
   .casaley-pink { padding: 72px 24px 80px; }
   .casaley-pink__head { margin-bottom: 56px; }
   .casaley-pink__grid { grid-template-columns: 1fr; gap: 0; }

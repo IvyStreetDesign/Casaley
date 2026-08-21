@@ -75,18 +75,6 @@ const PinkSection = () => {
       <div className="casaley-pink__inner">
         <div className="casaley-pink__grid">
           <div className="casaley-pink__col">
-            <header className="casaley-pink__head">
-              <span className="casaley-eyebrow">Welcome to Casaley Officer</span>
-              <h2 className="casaley-pink__title">Opportunity<br />Unearthed</h2>
-              <div className="casaley-pink__intro">
-                <p>A hidden gem is taking shape in Officer, offering a simple way to invest in one of Melbourne's growing communities.</p>
-                <p>These finished, turnkey homes are designed to make ownership easy, with everything ready from day one — well connected to shops, schools and transport, in a well established location.</p>
-              </div>
-              <button type="button" className="casaley-pink__register-cta" data-action="register">
-                Register your interest
-              </button>
-            </header>
-
             {moments.map((m, i) => (
               <article
                 key={m.id}

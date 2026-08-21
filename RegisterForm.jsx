@@ -24,7 +24,7 @@ const RegisterField = ({ label, name, type = "text", value, onChange, placeholde
   );
 };
 
-const RegisterForm = ({ open, onOpen, onClose, tabRevealed = true }) => {
+const RegisterForm = ({ open, onOpen, onClose }) => {
   const [data, setData] = React.useState({});
   const [submitted, setSubmitted] = React.useState(false);
   const set = (k) => (v) => setData(d => ({ ...d, [k]: v }));
@@ -40,16 +40,16 @@ const RegisterForm = ({ open, onOpen, onClose, tabRevealed = true }) => {
     <>
       <button
         type="button"
-        className={"casaley-rf__tab" + (open ? " is-hidden" : " is-revealed")}
+        className={"casaley-rf__tab" + (open ? " is-hidden" : "")}
         onClick={onOpen}
         aria-label="Open register form"
         aria-expanded={open}
-        tabIndex={open || !tabRevealed ? -1 : 0}
+        tabIndex={open ? -1 : 0}
       >
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
           <polyline points="14 6 8 12 14 18"/>
         </svg>
-        <span>Register</span>
+        <span>Register now</span>
       </button>
 
       <aside

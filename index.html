@@ -32,36 +32,26 @@
 
 <script type="text/babel">
   const App = () => {
-    const isDesktop = () => window.innerWidth > 980;
-    // Form starts open on desktop only — never auto-opens on mobile
-    const [formOpen, setFormOpen] = React.useState(() => isDesktop());
+    // The register panel is opened deliberately via the Register Now tab (or
+    // any [data-action="register"] control) — it never opens on its own.
+    const [formOpen, setFormOpen] = React.useState(false);
     const [headerRevealed, setHeaderRevealed] = React.useState(false);
 
-    // Form open/close interaction model:
-    // - Scrolling past 20vh auto-closes the form and reveals the header
-    // - Scrolling back into the hero re-opens the form, UNLESS the user manually closed it
-    // - Manual close is tracked separately so auto-reopen doesn't fight the user
-    const autoClosedRef     = React.useRef(false);
-    const manuallyClosedRef = React.useRef(false);
-    const isPastRef         = React.useRef(false);
+    // Reveal the fixed header only once the hero fold has scrolled past, so it
+    // never sits over the opening fold.
     React.useEffect(() => {
       const onScroll = () => {
-        const past = window.scrollY > window.innerHeight * 0.2;
-        setHeaderRevealed(past);
-        if (past && !autoClosedRef.current) {
-          autoClosedRef.current = true;
-          manuallyClosedRef.current = false;
-          setFormOpen(false);
-        }
-        if (!past && isPastRef.current && !manuallyClosedRef.current && isDesktop()) {
-          autoClosedRef.current = false;
-          setFormOpen(true);
-        }
-        isPastRef.current = past;
+        const hero = document.querySelector(".casaley-hero");
+        const threshold = hero ? hero.offsetHeight - 72 : window.innerHeight;
+        setHeaderRevealed(window.scrollY > threshold);
       };
       window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
       onScroll();
-      return () => window.removeEventListener("scroll", onScroll);
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+      };
     }, []);
 
     // Delegated click handler — any element with data-action="register" anywhere
@@ -79,15 +69,13 @@
       <div className="casaley-page" id="top">
         <Header revealed={headerRevealed} formOpen={formOpen} onRegisterClick={() => setFormOpen(true)} />
         <Hero />
-        <div className="casaley-hero-spacer" aria-hidden="true" />
         <PinkSection />
         <OrangeSection />
         <Footer />
         <RegisterForm
           open={formOpen}
           onOpen={() => setFormOpen(true)}
-          onClose={() => { manuallyClosedRef.current = true; setFormOpen(false); }}
-          tabRevealed={headerRevealed}
+          onClose={() => setFormOpen(false)}
         />
       </div>
     );
