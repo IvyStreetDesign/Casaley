@@ -65,7 +65,7 @@ a { color: inherit; text-decoration: none; }
 .casaley-hero::before {
   content: "";
   position: absolute; inset: 0; z-index: 0;
-  background: var(--pattern-tile) 0 0 / 1040px 579px repeat;
+  background: var(--pattern-tile) 0 0 / 1486px 827px repeat;
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, transparent 50%, #000 70%, #000 100%);
           mask-image: linear-gradient(180deg, transparent 0%, transparent 50%, #000 70%, #000 100%);
   pointer-events: none;
@@ -115,10 +115,10 @@ a { color: inherit; text-decoration: none; }
 .casaley-hero__wordmark {
   position: absolute; z-index: 3;
   left: 50%; bottom: 0;
-  /* Overscan past the viewport so the outer verticals of C and Y are just
-     clipped at the screen edges. --wm-parallax is driven by scroll. */
+  /* Overscan well past the viewport so the outer verticals of C and Y bleed
+     off both screen edges (no blue gap). --wm-parallax is driven by scroll. */
   transform: translateX(-50%) translateY(var(--wm-parallax, 0px));
-  width: 106vw; height: auto;
+  width: 110vw; height: auto;
   pointer-events: none;
   will-change: transform;
 }
@@ -191,52 +191,58 @@ a { color: inherit; text-decoration: none; }
 /* When opening, hide the tab immediately (no delay) before the panel covers it. */
 .casaley-rf__tab.is-hidden { transform: translate(80px, -50%); pointer-events: none; transition: transform 240ms var(--ease-soft) 0ms; }
 
-/* A fixed-size sheet over the image's upper-right (not full height), with a
-   diagonal feather — solid spicy orange at the top-left fading to transparent
-   at the bottom-right, so the keyline and pattern read through the lower edge. */
+/* A content-sized sheet over the image's upper-right, revealing flush with the
+   screen's right edge (overlaying the image and the blue margin beside it),
+   with a diagonal feather — solid spicy orange at the top-left fading toward
+   the bottom-right so the keyline and pattern read through the lower edge.
+   Everything inside is sized in em off a viewport-driven font-size, so the
+   whole panel scales down on smaller windows and never scrolls internally. */
 .casaley-rf {
   /* Vertically centred on the framed image (image centre = edge + half the
-     16:9 image height), inset from the right to align with the image. */
+     16:9 image height). */
   position: fixed;
   top: calc(var(--hero-edge) + (100vw - 2 * var(--hero-edge)) * 0.28125);
-  right: var(--hero-edge);
+  right: 0;
   z-index: 50;
-  width: min(480px, 90vw);
-  height: clamp(440px, 43vw, 760px);
+  width: min(480px, 92vw);
+  height: auto;
+  max-height: calc(100dvh - 2 * var(--hero-edge));
+  font-size: clamp(10px, 0.45vw + 0.85vh, 14px);
   background: linear-gradient(135deg,
-    rgba(223, 90, 58, 0.60) 0%, rgba(223, 90, 58, 0.46) 52%, rgba(223, 90, 58, 0.24) 100%);
+    rgba(223, 90, 58, 0.82) 0%, rgba(223, 90, 58, 0.66) 52%, rgba(223, 90, 58, 0.48) 100%);
   color: var(--casaley-pink-light);
-  transform: translate(calc(100% + 60px), -50%);
+  transform: translate(calc(100% + 20px), -50%);
   box-shadow: -10px 0 40px -16px rgba(38,52,116,0);
   transition: transform 800ms cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 800ms cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
 }
 .casaley-rf.is-open { transform: translate(0, -50%); box-shadow: -10px 0 40px -16px rgba(38,52,116,0.4); }
-.casaley-rf__inner { padding: 26px 34px 32px; min-height: 100%; display: flex; flex-direction: column; gap: 18px; }
+.casaley-rf__inner { padding: 1.86em 2.43em 2.29em; min-height: 0; display: flex; flex-direction: column; gap: 1.29em; }
 
 .casaley-rf__head { display: flex; align-items: center; justify-content: space-between; }
 .casaley-rf__close {
-  width: 32px; height: 32px; border-radius: 50%;
+  width: 2.29em; height: 2.29em; border-radius: 50%;
   background: transparent; border: 1px solid rgba(242,226,221,0.4);
   color: var(--casaley-pink-light); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
+  display: flex; align-items: center; justify-content: center; flex: none;
   transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
+.casaley-rf__close svg { width: 1.14em; height: 1.14em; }
 .casaley-rf__close:hover { background: rgba(242,226,221,0.12); border-color: rgba(242,226,221,0.7); }
 
 .casaley-rf__title {
   font-family: var(--font-display); font-weight: 600;
-  font-size: 36px; line-height: 1.05; letter-spacing: var(--track-display);
-  margin: 0 0 28px;
+  font-size: 2.57em; line-height: 1.05; letter-spacing: var(--track-display);
+  margin: 0 0 0.55em;
 }
 
-.casaley-rf__form { display: flex; flex-direction: column; gap: 18px; }
-.casaley-rf__row--two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.casaley-rf__form { display: flex; flex-direction: column; gap: 1.29em; }
+.casaley-rf__row--two { display: grid; grid-template-columns: 1fr 1fr; gap: 1.29em; }
 
-.casaley-rf__field { display: flex; flex-direction: column; gap: 6px; }
+.casaley-rf__field { display: flex; flex-direction: column; gap: 0.43em; }
 .casaley-rf__label {
-  font-family: var(--font-sans); font-size: 10px; font-weight: 600; letter-spacing: 0.22em;
+  font-family: var(--font-sans); font-size: 0.71em; font-weight: 600; letter-spacing: 0.22em;
   text-transform: uppercase; color: rgba(242,226,221,0.85);
 }
 .casaley-rf__field input,
@@ -246,8 +252,8 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid rgba(242,226,221,0.45);
   color: var(--casaley-pink-light);
   font-family: var(--font-sans);
-  font-size: 14px;
-  padding: 6px 0 8px;
+  font-size: 1em;
+  padding: 0.43em 0 0.57em;
   outline: none;
   transition: border-color var(--dur-fast) var(--ease-out);
   letter-spacing: 0.01em;
@@ -255,7 +261,7 @@ a { color: inherit; text-decoration: none; }
   appearance: none;
   -webkit-appearance: none;
 }
-.casaley-rf__field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f2e2dd' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 16px; }
+.casaley-rf__field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f2e2dd' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.3em center; padding-right: 1.1em; }
 .casaley-rf__field select option { color: var(--fg1); }
 .casaley-rf__field input::placeholder { color: rgba(242,226,221,0.55); }
 .casaley-rf__field input:focus,
@@ -263,17 +269,17 @@ a { color: inherit; text-decoration: none; }
 
 .casaley-rf__submit {
   font-family: var(--font-sans);
-  font-size: 11px; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase;
+  font-size: 0.79em; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase;
   background: var(--casaley-pink); color: var(--casaley-velvet);
   border: 0; border-radius: var(--radius-sm);
-  padding: 16px 24px;
-  margin-top: 8px;
+  padding: 1.45em 2.2em;
+  margin-top: 0.57em;
   cursor: pointer;
   transition: background-color var(--dur-fast) var(--ease-out);
 }
 .casaley-rf__submit:hover { background: var(--casaley-pink-deep); }
 
-.casaley-rf__legal { font-size: 11px; line-height: 1.5; color: rgba(242,226,221,0.75); margin: 0; }
+.casaley-rf__legal { font-size: 0.79em; line-height: 1.5; color: rgba(242,226,221,0.75); margin: 0; }
 .casaley-rf__legal a { border-bottom: 1px solid rgba(242,226,221,0.5); padding-bottom: 1px; }
 
 /* === Pink editorial section (Alba: beige) ===================== */
