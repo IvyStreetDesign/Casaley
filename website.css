@@ -65,7 +65,7 @@ a { color: inherit; text-decoration: none; }
 .casaley-hero::before {
   content: "";
   position: absolute; inset: 0; z-index: 0;
-  background: var(--pattern-tile) 0 0 / 1486px 827px repeat;
+  background: var(--pattern-tile) 0 0 / 1783px 992px repeat;
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, transparent 50%, #000 70%, #000 100%);
           mask-image: linear-gradient(180deg, transparent 0%, transparent 50%, #000 70%, #000 100%);
   pointer-events: none;
@@ -115,10 +115,10 @@ a { color: inherit; text-decoration: none; }
 .casaley-hero__wordmark {
   position: absolute; z-index: 3;
   left: 50%; bottom: 0;
-  /* Overscan well past the viewport so the outer verticals of C and Y bleed
-     off both screen edges (no blue gap). --wm-parallax is driven by scroll. */
+  /* Overscan so the outer verticals of C and Y sit right at the screen edges —
+     full-bleed with no gap, but only just clipped. --wm-parallax is scroll. */
   transform: translateX(-50%) translateY(var(--wm-parallax, 0px));
-  width: 110vw; height: auto;
+  width: 108vw; height: auto;
   pointer-events: none;
   will-change: transform;
 }
@@ -209,7 +209,7 @@ a { color: inherit; text-decoration: none; }
   max-height: calc(100dvh - 2 * var(--hero-edge));
   font-size: clamp(10px, 0.45vw + 0.85vh, 14px);
   background: linear-gradient(135deg,
-    rgba(223, 90, 58, 0.82) 0%, rgba(223, 90, 58, 0.66) 52%, rgba(223, 90, 58, 0.48) 100%);
+    rgba(223, 90, 58, 0.90) 0%, rgba(223, 90, 58, 0.80) 52%, rgba(223, 90, 58, 0.68) 100%);
   color: var(--casaley-pink-light);
   transform: translate(calc(100% + 20px), -50%);
   box-shadow: -10px 0 40px -16px rgba(38,52,116,0);
