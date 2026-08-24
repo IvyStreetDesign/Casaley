@@ -100,9 +100,6 @@ placeholder aerial for Project Updates (flagged with an on-image
 - **Register form has no endpoint.** `handleSubmit` in `RegisterForm.jsx`
   fakes the confirmation, same as Alba's. Wire it to your CRM or a form
   service.
-- **Footer credits are em-dash placeholders.** The consultant team wasn't
-  supplied. `credits` at the top of `Footer.jsx` takes a name and optional
-  href per slot; restore `<img>` logos there if you'd rather.
 - **Hero is a still.** Alba's hero runs a looping `alba.mp4`. No Casaley video
   was supplied, so `Hero.jsx` uses `hero.jpg`. The CSS already styles
   `.casaley-hero__image video` identically — drop a video in and swap the tag.
