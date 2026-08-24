@@ -1,23 +1,32 @@
 const moments = [
   {
     id: "residences",
-    eyebrow: "Residences",
-    title: "Turnkey homes, polished and complete.",
-    body: "Every Casaley home is delivered finished — landscaped, fenced and detailed to a consistent standard. There is nothing left to specify, coordinate or wait on, so the home is ready to live in or lease from the day it settles.",
+    eyebrow: "Location",
+    title: "A connected community",
+    body: [
+      "Officer has grown into a connected, family-focused community in the south east. Close to desirable suburbs such as Berwick, Casaley places you close to everyday treasures, including schools, retail, recreation and everyday amenities. Green space is all part of the appeal, with a significant network of neighbourhood parks throughout the area.",
+      "50km away is Melbourne City, connected by convenient public transport and major arterial roads. Officer and Cardinia Road Train Stations make for easy travel to inner city suburbs.",
+      "All the things that families value most are close to Casaley.",
+    ],
     img: "./assets/residences.jpg",
+    cta: { label: "View amenity map", href: "./assets/casaley-amenity-map.pdf", download: "Casaley-Amenity-Map.pdf" },
   },
   {
     id: "opportunity",
-    eyebrow: "Opportunity",
+    eyebrow: "Now selling",
     title: "Rare potential, ready to be uncovered.",
-    body: "Low-maintenance living, thoughtful design and steady demand in the surrounding area make each home an accessible way to invest with confidence. It is a straightforward entry into one of Melbourne's growing communities, without the risk that comes with building from scratch.",
+    body: [
+      "Introducing Casaley, a residential community with a unique offering. A collection of 4 bedroom turnkey homes designed and crafted by one of Australia's leading builders.",
+      "Casaley is an exclusive collection of just 60 architecturally designed homes, perfected by its Officer location in the heart of Melbourne's south-east. Each home is delivered polished, complete and ready for living.",
+    ],
     img: "./assets/streetscape.jpg",
+    cta: { label: "View masterplan", href: "./assets/casaley-masterplan.pdf", download: "Casaley-Masterplan.pdf" },
   },
   {
     id: "location",
-    eyebrow: "Location",
-    title: "Local treasures around every corner.",
-    body: "Officer sits in Melbourne's south-east growth corridor, in the City of Cardinia. Schools, shops and parkland are already established, with Officer Station on the Pakenham line and the Princes Freeway close at hand for the run into the city.",
+    eyebrow: "Project updates",
+    title: "xxx",
+    body: ["xxx"],
     img: "./assets/lifestyle.jpg",
   },
 ];
@@ -85,10 +94,20 @@ const PinkSection = () => {
                 <div className="casaley-pink__moment-num">0{i + 1}</div>
                 <span className="casaley-eyebrow">{m.eyebrow}</span>
                 <h3 className="casaley-pink__moment-title">{m.title}</h3>
-                <p>{m.body}</p>
-                <button type="button" className="casaley-pink__moment-register" data-action="register">
-                  Register your interest
-                </button>
+                {m.body.map((p, pi) => <p key={pi}>{p}</p>)}
+                {m.cta ? (
+                  <a
+                    href={m.cta.href}
+                    download={m.cta.download}
+                    className="casaley-pink__moment-register"
+                  >
+                    {m.cta.label}
+                  </a>
+                ) : (
+                  <button type="button" className="casaley-pink__moment-register" data-action="register">
+                    Register your interest
+                  </button>
+                )}
               </article>
             ))}
           </div>
