@@ -109,18 +109,18 @@ a { color: inherit; text-decoration: none; }
   color: #fff;
 }
 
-/* Full-bleed keyline straddling the frame's lower edge (letters cut at the
-   viewport edges). Vertically centred on the frame bottom by the stage's
-   reserved padding. */
+/* Full-bleed keyline straddling the frame's lower edge. Vertically centred
+   on the frame bottom by the stage's reserved padding. */
 .casaley-hero__wordmark {
   position: absolute; z-index: 3;
   left: 50%; bottom: 0;
-  /* Overscan so the outer verticals of C and Y sit right at the screen edges —
-     full-bleed with no gap, but only just clipped. --wm-parallax is scroll.
+  /* The artwork's outer strokes already sit flush with its own file edges
+     (no internal padding), so 100vw lands them exactly on the screen edges
+     with no overscan needed. --wm-parallax is scroll-driven drift.
      max-width:none defeats any host `img{max-width:100%}` (e.g. the artifact
      runtime), which would otherwise cap this to its container width. */
   transform: translateX(-50%) translateY(var(--wm-parallax, 0px));
-  width: 108vw; max-width: none; height: auto;
+  width: 100vw; max-width: none; height: auto;
   pointer-events: none;
   will-change: transform;
 }
