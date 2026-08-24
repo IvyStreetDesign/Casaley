@@ -33,7 +33,7 @@ const moments = [
 ];
 
 const PinkSection = () => {
-  const [active, setActive] = React.useState(-1);
+  const [active, setActive] = React.useState(0);
   const [imgTop, setImgTop] = React.useState(0);
   const refs       = React.useRef([]);
   const sectionRef = React.useRef(null);
@@ -45,7 +45,9 @@ const PinkSection = () => {
     const pick = () => {
       raf = 0;
       const trigger = window.innerHeight * TRIGGER;
-      let idx = -1;
+      // Never fall back below the first moment — its image should already be
+      // visible as the section scrolls into view, not a bare background block.
+      let idx = 0;
       for (let i = 0; i < refs.current.length; i++) {
         const el = refs.current[i];
         if (!el) continue;
