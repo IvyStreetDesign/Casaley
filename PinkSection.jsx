@@ -8,7 +8,7 @@ const moments = [
       "50km away is Melbourne City, connected by convenient public transport and major arterial roads. Officer and Cardinia Road Train Stations make for easy travel to inner city suburbs.",
       "All the things that families value most are close to Casaley.",
     ],
-    img: "./assets/residences.jpg",
+    img: "./assets/pink-train.jpg",
     cta: { label: "View amenity map", href: "./assets/casaley-amenity-map.pdf", download: "Casaley-Amenity-Map.pdf" },
   },
   {
@@ -19,7 +19,7 @@ const moments = [
       "Introducing Casaley, a residential community with a unique offering. A collection of 4 bedroom turnkey homes designed and crafted by one of Australia's leading builders.",
       "Casaley is an exclusive collection of just 60 architecturally designed homes, perfected by its Officer location in the heart of Melbourne's south-east. Each home is delivered polished, complete and ready for living.",
     ],
-    img: "./assets/streetscape.jpg",
+    img: "./assets/pink-facade.jpg",
     cta: { label: "View masterplan", href: "./assets/casaley-masterplan.pdf", download: "Casaley-Masterplan.pdf" },
   },
   {
@@ -27,7 +27,8 @@ const moments = [
     eyebrow: "Project updates",
     title: "xxx",
     body: ["xxx"],
-    img: "./assets/lifestyle.jpg",
+    img: "./assets/pink-aerial-placeholder.jpg",
+    placeholder: true,
   },
 ];
 
@@ -90,7 +91,10 @@ const PinkSection = () => {
                 ref={el => refs.current[i] = el}
                 className={"casaley-pink__moment" + (i === active ? " is-active" : "")}
               >
-                <img src={m.img} alt="" className="casaley-pink__moment-img" aria-hidden="true" />
+                <div className="casaley-pink__moment-media" aria-hidden="true">
+                  <img src={m.img} alt="" />
+                  {m.placeholder && <span className="casaley-pink__placeholder-badge">Placeholder only</span>}
+                </div>
                 <div className="casaley-pink__moment-num">0{i + 1}</div>
                 <span className="casaley-eyebrow">{m.eyebrow}</span>
                 <h3 className="casaley-pink__moment-title">{m.title}</h3>
@@ -114,18 +118,11 @@ const PinkSection = () => {
 
           <div className="casaley-pink__sticky" style={{ top: imgTop + 'px' }} aria-hidden="true">
             <div className="casaley-pink__stack">
-              <img
-                src="./assets/detail.jpg"
-                alt=""
-                className={"casaley-pink__img" + (active === -1 ? " is-active" : "")}
-              />
               {moments.map((m, i) => (
-                <img
-                  key={m.id}
-                  src={m.img}
-                  alt=""
-                  className={"casaley-pink__img" + (i === active ? " is-active" : "")}
-                />
+                <div key={m.id} className={"casaley-pink__img" + (i === active ? " is-active" : "")}>
+                  <img src={m.img} alt="" />
+                  {m.placeholder && <span className="casaley-pink__placeholder-badge">Placeholder only</span>}
+                </div>
               ))}
             </div>
           </div>

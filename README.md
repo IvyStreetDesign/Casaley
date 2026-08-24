@@ -89,9 +89,11 @@ weight and tracking. Self-hosted as a variable woff2 (~67 KB total). To serve
 the Adobe Fonts (Typekit) cut instead, delete the four `@font-face` blocks in
 `colors_and_type.css` and add your kit to `index.html`.
 
-**Imagery.** Extracted from the supplied `Casaley website.pdf`. Three
-photographs plus one tighter crop (`detail.jpg`) for the sticky column's
-resting state.
+**Imagery.** The hero uses a streetscape photo extracted from the supplied
+`Casaley website.pdf`. The three-moment section runs one photo per moment —
+a station photo for Location, a facade render for Now Selling, and a
+placeholder aerial for Project Updates (flagged with an on-image
+"Placeholder only" badge until final imagery is supplied).
 
 ## Before this goes live
 
