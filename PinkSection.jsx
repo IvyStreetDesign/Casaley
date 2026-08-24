@@ -101,7 +101,7 @@ const PinkSection = () => {
                 <span className="casaley-eyebrow">{m.eyebrow}</span>
                 <h3 className="casaley-pink__moment-title">{m.title}</h3>
                 {m.body.map((p, pi) => <p key={pi}>{p}</p>)}
-                {m.cta ? (
+                {m.cta && (
                   <a
                     href={m.cta.href}
                     download={m.cta.download}
@@ -109,10 +109,6 @@ const PinkSection = () => {
                   >
                     {m.cta.label}
                   </a>
-                ) : (
-                  <button type="button" className="casaley-pink__moment-register" data-action="register">
-                    Register your interest
-                  </button>
                 )}
               </article>
             ))}

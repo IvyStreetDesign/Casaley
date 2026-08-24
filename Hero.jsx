@@ -60,7 +60,6 @@ const Hero = () => {
             quality, convenience and strong long-term appeal in a well established
             location.
           </p>
-          <a className="casaley-hero__intro-cta" href="#residences">View homes</a>
         </div>
       </div>
     </section>
