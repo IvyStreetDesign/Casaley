@@ -9,7 +9,7 @@ const Footer = () => (
       <div className="casaley-footer__right">
         <div className="casaley-footer__address">
           <span className="casaley-footer__label">Visit us</span>
-          <p>45 Tivendale Rd<br />Officer, VIC 3809</p>
+          <p>46 Tivendale Rd<br />Officer, VIC 3809</p>
         </div>
 
         <div className="casaley-footer__legal">
