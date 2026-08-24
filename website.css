@@ -65,7 +65,10 @@ a { color: inherit; text-decoration: none; }
 .casaley-hero::before {
   content: "";
   position: absolute; inset: 0; z-index: 0;
-  background: var(--pattern-tile) 0 0 / 1783px 992px repeat;
+  /* Height kept exactly proportional to the artwork's native aspect ratio
+     (432.672 : 240.574) so the tile scales uniformly on both axes — a
+     mismatched ratio is what makes repeat joins look off. */
+  background: var(--pattern-tile) 0 0 / 1783px 991.38px repeat;
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, transparent 50%, #000 70%, #000 100%);
           mask-image: linear-gradient(180deg, transparent 0%, transparent 50%, #000 70%, #000 100%);
   pointer-events: none;
@@ -136,7 +139,10 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--font-display); font-weight: 600;
   font-size: clamp(40px, 5.4vw, 82px);
   line-height: 0.98; letter-spacing: 0.005em;
-  margin: 0; color: var(--casaley-pink);
+  /* Host Grotesk's cap-height sits a little below the line box at this
+     weight/size; nudge up so the glyph top lines up with the lead copy's. */
+  margin: -0.05em 0 0;
+  color: var(--casaley-pink);
 }
 .casaley-hero__intro-body { display: flex; flex-direction: column; max-width: none; }
 .casaley-hero__intro-lead {
