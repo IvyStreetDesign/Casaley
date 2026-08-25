@@ -57,15 +57,14 @@ const Hero = () => {
 
         <div className="casaley-hero__intro-body">
           <p className="casaley-hero__intro-lead">
-            A hidden gem is taking shape in Officer, offering a simple way to invest
+            A hidden gem is taking shape in Officer, offering a simple way to build
             in one of Melbourne&rsquo;s growing communities.
           </p>
           <p className="casaley-hero__intro-copy">
-            These finished, turnkey homes are designed to make ownership easy, with
-            everything ready from day one. Well connected to shops, schools and
-            transport, it&rsquo;s a smart opportunity for investors looking for
-            quality, convenience and strong long-term appeal in a well established
-            location.
+            Well connected to shops, schools and transport, Casaley offers builders
+            the opportunity to deliver quality homes in an established growth
+            corridor. With strong buyer demand and a well-positioned location,
+            it&rsquo;s a project with plenty of potential from the ground up.
           </p>
         </div>
       </div>

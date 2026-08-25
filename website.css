@@ -20,10 +20,7 @@ a { color: inherit; text-decoration: none; }
   height: 64px;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 48px;
-  /* Alba runs a photographic texture here; Casaley uses the brand pattern
-     over royal blue, which is the equivalent brand surface. The tile is set
-     to bar height so it reads as fine texture rather than one large fragment. */
-  background: var(--casaley-royal-blue) var(--pattern-tile) 0 0 / 58px 64px repeat;
+  background: var(--casaley-royal-blue);
   border-bottom: 1px solid var(--line-on-blue);
   opacity: 0;
   transform: translateY(-6px);
@@ -36,14 +33,16 @@ a { color: inherit; text-decoration: none; }
 .casaley-header__mark { display: flex; align-items: center; }
 .casaley-header__wordmark { height: 34px; width: auto; display: block; }
 
-.casaley-header__cta {
+.casaley-header__nav {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: clamp(10px, 1.2vw, 16px);
   font-family: var(--font-sans);
   font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
-  background: var(--casaley-orange); color: var(--casaley-pink-light);
-  padding: 11px 18px; border: none; border-radius: var(--radius-sm); cursor: pointer;
-  transition: background-color var(--dur-fast) var(--ease-out);
+  color: rgba(242,226,221,0.85);
 }
-.casaley-header__cta:hover { background: var(--casaley-orange-deep); }
+.casaley-header__nav a { transition: color var(--dur-fast) var(--ease-out); }
+.casaley-header__nav a:hover { color: var(--casaley-pink-light); }
+.casaley-header__nav span { opacity: 0.5; }
 
 /* === Hero — the "Opportunity Unearthed" fold =================== */
 /* A normal-flow fold on the royal-blue field: a framed streetscape with the
@@ -607,6 +606,7 @@ a { color: inherit; text-decoration: none; }
   .casaley-footer__address { align-items: center; }
   .casaley-footer__legal { align-items: center; }
   .casaley-header { padding: 0 24px; }
+  .casaley-header__nav { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
