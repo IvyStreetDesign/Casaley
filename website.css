@@ -185,9 +185,14 @@ a { color: inherit; text-decoration: none; }
 /* The tab is the only way in — always visible (the panel no longer opens on
    its own), spicy orange, and prominent. */
 .casaley-rf__tab {
-  /* Centred between the top of the image and the top of the CASALEY keyline
-     (~22vw tracks that midpoint across widths). */
-  position: fixed; top: clamp(170px, 22vw, 470px); right: 0; transform: translateY(-50%);
+  /* Top edge level with the top of the "A hidden gem..." lede: hero-edge to
+     frame top, plus the over-inset and nav-to-lede gap (same clamp()s as
+     .casaley-hero__over and its gap) down to the lede itself, plus the
+     13.1875px nav line height, plus half the tab's own height to land the
+     *top* edge there once translateY(-50%) re-centres it. */
+  position: fixed;
+  top: calc(var(--hero-edge) + clamp(20px, 2.4vw, 36px) + clamp(20px, 2.6vw, 38px) + 168.1875px);
+  right: 0; transform: translateY(-50%);
   z-index: 45;
   width: 58px; height: 310px;
   background: var(--casaley-orange);
