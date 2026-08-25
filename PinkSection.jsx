@@ -2,7 +2,7 @@ const moments = [
   {
     id: "location",
     eyebrow: "Location",
-    title: "A connected community",
+    title: "A connected community.",
     body: [
       "Officer has grown into a connected, family-focused community in Melbourne’s south-east. Close to Berwick, Casaley puts schools, retail, recreation, parks and everyday amenity within easy reach.",
       "Around 50km from Melbourne CBD, Officer is connected by major roads and public transport, including Officer and Cardinia Road stations. Beyond lifestyle, Officer offers strong fundamentals for continued residential and rental demand, supported by affordability, established infrastructure and population growth. Cardinia Shire is forecast to grow by approximately 23% between 2024 and 2034, supporting demand for well-connected housing. Casaley presents an opportunity to invest in a growing area with appeal for both owner-occupiers and renters.",
@@ -24,7 +24,7 @@ const moments = [
   {
     id: "project-updates",
     eyebrow: "Project updates",
-    title: "xxx",
+    title: "Stage 1 in progress.",
     body: ["We're thrilled to announce that we've broken ground on the Casaley site, with civil works on stage 1 now underway."],
     img: "./assets/pink-aerial-placeholder.jpg",
     placeholder: true,

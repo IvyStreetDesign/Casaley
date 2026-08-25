@@ -11,7 +11,7 @@ const Hero = () => {
       raf = 0;
       const rect = hero.getBoundingClientRect();
       const progress = Math.min(Math.max(-rect.top / (rect.height || 1), 0), 1);
-      wm.style.setProperty("--wm-parallax", (progress * -190).toFixed(1) + "px");
+      wm.style.setProperty("--wm-parallax", (progress * -240).toFixed(1) + "px");
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     update();
