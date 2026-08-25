@@ -53,11 +53,12 @@ a { color: inherit; text-decoration: none; }
   background: var(--casaley-royal-blue);
   color: var(--casaley-pink-light);
   /* Equal inset on the top and sides around the framed image. Bottom
-     padding reuses .casaley-hero__intro's own margin-top clamp(), plus the
-     wordmark's own 3vw upward offset, so the gap below the intro block
-     always matches the gap above it (wordmark bottom to intro top) at any
-     viewport width. */
-  padding: var(--hero-edge) var(--hero-edge) calc(clamp(52px, 7vw, 116px) + 3vw);
+     padding = stage's 10vw reserve + .casaley-hero__intro's own margin-top
+     clamp() — the exact same two terms that make up the gap from the
+     image's bottom to the intro block's top — so the intro block sits
+     centred between the bottom of the image and the top of the pink
+     section at any viewport width. */
+  padding: var(--hero-edge) var(--hero-edge) calc(10vw + clamp(26px, 3.5vw, 58px));
   overflow: hidden;
 }
 .casaley-mobile-br { display: none; }
@@ -145,7 +146,7 @@ a { color: inherit; text-decoration: none; }
   display: grid; grid-template-columns: 1fr 1fr;
   gap: clamp(24px, 5vw, 72px);
   align-items: start;
-  margin-top: clamp(52px, 7vw, 116px);
+  margin-top: clamp(26px, 3.5vw, 58px);
 }
 .casaley-hero__intro-title {
   font-family: var(--font-display); font-weight: 600;
