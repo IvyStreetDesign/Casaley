@@ -4,11 +4,8 @@ const moments = [
     eyebrow: "Location",
     title: "A connected community",
     body: [
-      "Officer has grown into a connected, family-focused community in the south east. Close to desirable suburbs such as Berwick, Casaley places you close to everyday treasures, including schools, retail, recreation and everyday amenities. Green space is all part of the appeal, with a significant network of neighbourhood parks throughout the area.",
-      "50km away is Melbourne City, connected by convenient public transport and major arterial roads. Officer and Cardinia Road Train Stations make for easy travel to inner city suburbs.",
-      "All the things that families value most are close to Casaley.",
-      "Officer's appeal extends well beyond lifestyle. It comes down to affordability, growing family demand, and access to established infrastructure; all are fundamentals that are helping establish Officer as an active residential and rental market, powered by population growth and a desire to live in a connected, community-focused neighbourhood.",
-      "Cardinia Shire, the council in which Officer is located, is forecast to increase its population by approximately 23% between 2024 and 2034, supporting continued demand for well connected housing close to established amenity. Casaley is the opportunity to invest in an area with projected growth, for both owner occupier homes and investors.",
+      "Officer has grown into a connected, family-focused community in Melbourne’s south-east. Close to Berwick, Casaley puts schools, retail, recreation, parks and everyday amenity within easy reach.",
+      "Around 50km from Melbourne CBD, Officer is connected by major roads and public transport, including Officer and Cardinia Road stations. Beyond lifestyle, Officer offers strong fundamentals for continued residential and rental demand, supported by affordability, established infrastructure and population growth. Cardinia Shire is forecast to grow by approximately 23% between 2024 and 2034, supporting demand for well-connected housing. Casaley presents an opportunity to invest in a growing area with appeal for both owner-occupiers and renters.",
     ],
     img: "./assets/pink-train.jpg",
     cta: { label: "View amenity map", href: "./assets/casaley-amenity-map.pdf", download: "Casaley-Amenity-Map.pdf" },
