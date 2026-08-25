@@ -1,6 +1,6 @@
 const moments = [
   {
-    id: "residences",
+    id: "location",
     eyebrow: "Location",
     title: "A connected community",
     body: [
@@ -11,7 +11,7 @@ const moments = [
     cta: { label: "View amenity map", href: "./assets/casaley-amenity-map.pdf", download: "Casaley-Amenity-Map.pdf" },
   },
   {
-    id: "opportunity",
+    id: "now-selling",
     eyebrow: "Now selling",
     title: "Rare potential, ready to be uncovered.",
     body: [
@@ -22,7 +22,7 @@ const moments = [
     cta: { label: "View masterplan", href: "./assets/casaley-masterplan.pdf", download: "Casaley-Masterplan.pdf" },
   },
   {
-    id: "location",
+    id: "project-updates",
     eyebrow: "Project updates",
     title: "xxx",
     body: ["We're thrilled to announce that we've broken ground on the Casaley site, with civil works on stage 1 now underway."],
@@ -34,6 +34,7 @@ const moments = [
 const PinkSection = () => {
   const [active, setActive] = React.useState(0);
   const [imgTop, setImgTop] = React.useState(0);
+  const [imgHeight, setImgHeight] = React.useState(null);
   const refs       = React.useRef([]);
   const sectionRef = React.useRef(null);
 
@@ -66,29 +67,37 @@ const PinkSection = () => {
     };
   }, []);
 
-  // Sticky image top — constant per viewport height, recalculated only on resize.
-  // Keeping this out of the scroll handler prevents jitter on the sticky element.
+  // Sticky image size — matches the first moment's own rendered height (its
+  // text frame top to the amenity-map button's bottom), so every crossfaded
+  // image shares one consistent height instead of a viewport-relative one.
+  // Recalculated on resize only, not on scroll, to keep the sticky element
+  // from jittering.
   React.useEffect(() => {
     const update = () => {
-      if (!sectionRef.current) return;
-      if (window.matchMedia('(max-width: 980px)').matches) { setImgTop(0); return; }
-      const imgHeight = window.innerHeight - 560; // matches CSS calc(100vh - 560px)
+      if (!sectionRef.current || !refs.current[0]) return;
+      if (window.matchMedia('(max-width: 980px)').matches) { setImgTop(0); setImgHeight(null); return; }
+      const h = refs.current[0].getBoundingClientRect().height;
       const navH = 64;
-      setImgTop(navH + (window.innerHeight - navH - imgHeight) / 2);
+      setImgHeight(h);
+      setImgTop(navH + (window.innerHeight - navH - h) / 2);
     };
     window.addEventListener("resize", update);
     update();
+    // Re-measure once webfonts finish loading — an early measurement can be
+    // taken against fallback-font line heights.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
   return (
-    <section className="casaley-pink" id="residences" ref={sectionRef}>
+    <section className="casaley-pink" ref={sectionRef}>
       <div className="casaley-pink__inner">
         <div className="casaley-pink__grid">
           <div className="casaley-pink__col">
             {moments.map((m, i) => (
               <article
                 key={m.id}
+                id={m.id}
                 ref={el => refs.current[i] = el}
                 className={"casaley-pink__moment" + (i === active ? " is-active" : "")}
               >
@@ -111,9 +120,21 @@ const PinkSection = () => {
                 )}
               </article>
             ))}
+            {/* Trailing buffer, not a moment-to-moment gap: gives the sticky
+                image room to stay in its centred resting position through the
+                last moment's natural reading position, instead of running out
+                of scroll room and snapping to bottom-aligned right as the
+                last (short) moment comes into view. */}
+            {imgHeight != null && (
+              <div aria-hidden="true" style={{ height: imgHeight * 0.6 + 'px' }} />
+            )}
           </div>
 
-          <div className="casaley-pink__sticky" style={{ top: imgTop + 'px' }} aria-hidden="true">
+          <div
+            className="casaley-pink__sticky"
+            style={{ top: imgTop + 'px', height: imgHeight != null ? imgHeight + 'px' : undefined }}
+            aria-hidden="true"
+          >
             <div className="casaley-pink__stack">
               {moments.map((m, i) => (
                 <div key={m.id} className={"casaley-pink__img" + (i === active ? " is-active" : "")}>

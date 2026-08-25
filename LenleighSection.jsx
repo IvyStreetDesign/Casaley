@@ -1,5 +1,5 @@
 const LenleighSection = () => (
-  <section className="casaley-lenleigh">
+  <section className="casaley-lenleigh" id="about">
     <div className="casaley-lenleigh__inner">
       <div className="casaley-lenleigh__grid">
         <div className="casaley-lenleigh__images">
@@ -14,9 +14,9 @@ const LenleighSection = () => (
         </div>
 
         <div className="casaley-lenleigh__content">
-          <h2 className="casaley-lenleigh__title">About Lenleigh</h2>
+          <h2 className="casaley-lenleigh__title">About LenLeigh</h2>
           <p className="casaley-lenleigh__body">
-            Lenleigh, a division of Glenvill, carries forward the values that have shaped
+            LenLeigh, a division of Glenvill, carries forward the values that have shaped
             Glenvill for decades. It brings a progressive, considered approach to
             development, one grounded in quality, integrity, and a genuine commitment to
             building communities that enrich the way people live. This shared expertise

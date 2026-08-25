@@ -11,7 +11,7 @@ const Hero = () => {
       raf = 0;
       const rect = hero.getBoundingClientRect();
       const progress = Math.min(Math.max(-rect.top / (rect.height || 1), 0), 1);
-      wm.style.setProperty("--wm-parallax", (progress * -110).toFixed(1) + "px");
+      wm.style.setProperty("--wm-parallax", (progress * -190).toFixed(1) + "px");
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
     update();
@@ -30,10 +30,17 @@ const Hero = () => {
           <img src="./assets/hero.jpg" alt="" />
           <div className="casaley-hero__veil" aria-hidden="true" />
           <div className="casaley-hero__over">
-            <span className="casaley-eyebrow casaley-hero__eyebrow">A turnkey collection at Officer</span>
+            <nav className="casaley-eyebrow casaley-hero__nav" aria-label="Section navigation">
+              <a href="#location">Location</a>
+              <span aria-hidden="true">/</span>
+              <a href="#now-selling">Now selling</a>
+              <span aria-hidden="true">/</span>
+              <a href="#project-updates">Project updates</a>
+              <span aria-hidden="true">/</span>
+              <a href="#about">About</a>
+            </nav>
             <p className="casaley-hero__lede">
-              A hidden gem is taking shape in Officer.<br />
-              Finished homes, ready from day one.
+              A hidden gem is taking shape in Officer.
             </p>
           </div>
         </figure>
