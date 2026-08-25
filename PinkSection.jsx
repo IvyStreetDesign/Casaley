@@ -35,14 +35,17 @@ const PinkSection = () => {
   const [active, setActive] = React.useState(0);
   const [imgTop, setImgTop] = React.useState(0);
   const [imgHeight, setImgHeight] = React.useState(null);
+  const [lastStickyTop, setLastStickyTop] = React.useState(null);
   const refs       = React.useRef([]);
   const sectionRef = React.useRef(null);
 
-  // Crossfade: activate the moment whose centre has passed 92% of viewport height
+  // Crossfade: activate the moment whose centre has passed 2/3 of viewport
+  // height — i.e. the moment has scrolled up more than a third of the way
+  // up the screen — rather than the moment barely having entered view.
   const suppressUntil = React.useRef(0);
   React.useEffect(() => {
     let raf = 0;
-    const TRIGGER = 0.92;
+    const TRIGGER = 0.667;
     const pick = () => {
       raf = 0;
       if (Date.now() < suppressUntil.current) return;
@@ -93,11 +96,21 @@ const PinkSection = () => {
   React.useEffect(() => {
     const update = () => {
       if (!sectionRef.current || !refs.current[0]) return;
-      if (window.matchMedia('(max-width: 980px)').matches) { setImgTop(0); setImgHeight(null); return; }
+      if (window.matchMedia('(max-width: 980px)').matches) { setImgTop(0); setImgHeight(null); setLastStickyTop(null); return; }
       const h = refs.current[0].getBoundingClientRect().height;
       const navH = 64;
       setImgHeight(h);
-      setImgTop(navH + (window.innerHeight - navH - h) / 2);
+      const top = navH + (window.innerHeight - navH - h) / 2;
+      setImgTop(top);
+      // The last moment is short, so left to scroll normally it keeps
+      // travelling well past the image's centre, opening up bare pink
+      // space beneath it. Sticking it once it reaches the image's own
+      // vertical centre holds it level there instead.
+      const lastEl = refs.current[refs.current.length - 1];
+      if (lastEl) {
+        const lastH = lastEl.getBoundingClientRect().height;
+        setLastStickyTop(top + h / 2 - lastH / 2);
+      }
     };
     window.addEventListener("resize", update);
     update();
@@ -121,8 +134,15 @@ const PinkSection = () => {
                 // Anchor-jump lands the text level with the sticky image's own
                 // resting position, not tucked under the header, so nav clicks
                 // land on a pair that reads as aligned rather than a text block
-                // sitting far above a lower, centred image.
-                style={imgHeight != null ? { scrollMarginTop: imgTop + 'px' } : undefined}
+                // sitting far above a lower, centred image. The last moment
+                // additionally sticks once it reaches the image's vertical
+                // centre, instead of scrolling on past it into bare space.
+                style={{
+                  ...(imgHeight != null ? { scrollMarginTop: imgTop + 'px' } : {}),
+                  ...(i === moments.length - 1 && lastStickyTop != null
+                    ? { position: "sticky", top: lastStickyTop + 'px' }
+                    : {}),
+                }}
               >
                 <div className="casaley-pink__moment-media" aria-hidden="true">
                   <img src={m.img} alt="" />
