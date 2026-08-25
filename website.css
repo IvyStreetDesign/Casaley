@@ -157,7 +157,7 @@ a { color: inherit; text-decoration: none; }
   margin: -0.05em 0 0;
   color: var(--casaley-pink);
 }
-.casaley-hero__intro-body { display: flex; flex-direction: column; max-width: none; }
+.casaley-hero__intro-body { display: flex; flex-direction: column; max-width: none; padding-right: clamp(16px, 3vw, 48px); }
 .casaley-hero__intro-lead {
   font-family: var(--font-sans); font-weight: 700;
   font-size: clamp(16px, 1.15vw, 18px); line-height: 1.4;
@@ -194,11 +194,12 @@ a { color: inherit; text-decoration: none; }
   top: calc(var(--hero-edge) + clamp(20px, 2.4vw, 36px) + clamp(20px, 2.6vw, 38px) + 168.1875px);
   right: 0; transform: translateY(-50%);
   z-index: 45;
-  width: 58px; height: 310px;
+  /* Same width as the hero's own side margin, so it sits flush in that
+     margin instead of overlapping the framed image. */
+  width: var(--hero-edge); height: 310px;
   background: var(--casaley-orange);
   color: #fff;
   border: 0;
-  border-radius: 4px 0 0 4px;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center; flex-direction: column;
   gap: 16px;
