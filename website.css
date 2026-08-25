@@ -19,7 +19,12 @@ a { color: inherit; text-decoration: none; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 40;
   height: 64px;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px;
+  /* Same inset as the hero fold's own nav: the frame's edge margin plus the
+     overlay's inset inside it (the two clamp()s .casaley-hero and
+     .casaley-hero__over use), so the nav items land in exactly the spot they
+     occupy up in the top fold — and the wordmark opposite them sits the same
+     distance in from the right edge. */
+  padding: 0 calc(var(--hero-edge) + clamp(20px, 2.4vw, 36px));
   background: var(--casaley-royal-blue);
   border-bottom: 1px solid var(--line-on-blue);
   opacity: 0;
