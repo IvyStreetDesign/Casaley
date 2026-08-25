@@ -35,7 +35,7 @@ const PinkSection = () => {
   const [active, setActive] = React.useState(0);
   const [imgTop, setImgTop] = React.useState(0);
   const [imgHeight, setImgHeight] = React.useState(null);
-  const [lastStickyTop, setLastStickyTop] = React.useState(null);
+  const [tailBuffer, setTailBuffer] = React.useState(null);
   const refs       = React.useRef([]);
   const sectionRef = React.useRef(null);
 
@@ -96,20 +96,23 @@ const PinkSection = () => {
   React.useEffect(() => {
     const update = () => {
       if (!sectionRef.current || !refs.current[0]) return;
-      if (window.matchMedia('(max-width: 980px)').matches) { setImgTop(0); setImgHeight(null); setLastStickyTop(null); return; }
+      if (window.matchMedia('(max-width: 980px)').matches) { setImgTop(0); setImgHeight(null); setTailBuffer(null); return; }
       const h = refs.current[0].getBoundingClientRect().height;
       const navH = 64;
       setImgHeight(h);
       const top = navH + (window.innerHeight - navH - h) / 2;
       setImgTop(top);
-      // The last moment is short, so left to scroll normally it keeps
-      // travelling well past the image's centre, opening up bare pink
-      // space beneath it. Sticking it once it reaches the image's own
-      // vertical centre holds it level there instead.
+      // The image stays stuck until the grid's bottom edge reaches it, so the
+      // column's trailing buffer is what decides when the pair unsticks. Size
+      // it so the grid ends exactly as the last moment's centre comes level
+      // with the image's centre: from there the image releases and both
+      // columns scroll on together, still aligned, instead of the text
+      // carrying on alone and opening bare pink space beneath it.
+      //   buffer + lastH/2 = h/2   →   buffer = (h - lastH) / 2
       const lastEl = refs.current[refs.current.length - 1];
       if (lastEl) {
         const lastH = lastEl.getBoundingClientRect().height;
-        setLastStickyTop(top + h / 2 - lastH / 2);
+        setTailBuffer(Math.max(0, (h - lastH) / 2));
       }
     };
     window.addEventListener("resize", update);
@@ -134,15 +137,8 @@ const PinkSection = () => {
                 // Anchor-jump lands the text level with the sticky image's own
                 // resting position, not tucked under the header, so nav clicks
                 // land on a pair that reads as aligned rather than a text block
-                // sitting far above a lower, centred image. The last moment
-                // additionally sticks once it reaches the image's vertical
-                // centre, instead of scrolling on past it into bare space.
-                style={{
-                  ...(imgHeight != null ? { scrollMarginTop: imgTop + 'px' } : {}),
-                  ...(i === moments.length - 1 && lastStickyTop != null
-                    ? { position: "sticky", top: lastStickyTop + 'px' }
-                    : {}),
-                }}
+                // sitting far above a lower, centred image.
+                style={imgHeight != null ? { scrollMarginTop: imgTop + 'px' } : undefined}
               >
                 <div className="casaley-pink__moment-media" aria-hidden="true">
                   <img src={m.img} alt="" />
@@ -163,13 +159,16 @@ const PinkSection = () => {
                 )}
               </article>
             ))}
-            {/* Trailing buffer, not a moment-to-moment gap: gives the sticky
-                image room to stay in its centred resting position through the
-                last moment's natural reading position, instead of running out
-                of scroll room and snapping to bottom-aligned right as the
-                last (short) moment comes into view. */}
-            {imgHeight != null && (
-              <div aria-hidden="true" style={{ height: imgHeight * 0.6 + 'px' }} />
+            {/* Trailing buffer, not a moment-to-moment gap: it sets the point
+                where the sticky image releases — measured above so that lands
+                exactly as the last moment comes level with the image. The
+                negative margin cancels the column's own flex gap, which would
+                otherwise add to this and release the pair a gap's worth early. */}
+            {tailBuffer != null && (
+              <div
+                aria-hidden="true"
+                style={{ height: tailBuffer + 'px', marginTop: 'calc(-1 * var(--space-9))' }}
+              />
             )}
           </div>
 
