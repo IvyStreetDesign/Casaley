@@ -65,10 +65,11 @@ a { color: inherit; text-decoration: none; }
 .casaley-hero::before {
   content: "";
   position: absolute; inset: 0; z-index: 0;
-  /* Height kept exactly proportional to the artwork's native aspect ratio
-     (432.672 : 240.574) so the tile scales uniformly on both axes — a
-     mismatched ratio is what makes repeat joins look off. */
-  background: var(--pattern-tile) 0 0 / 1783px 991.38px repeat;
+  /* Tile is the pattern's true atomic repeat unit (native 54.0326 x
+     59.7014, straight from the source file's own <pattern> definition),
+     scaled 4.1x here — both axes by the same factor, so the aspect ratio
+     stays exact and every repeat join lines up. */
+  background: var(--pattern-tile) 0 0 / 221.53px 244.77px repeat;
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, transparent 50%, #000 70%, #000 100%);
           mask-image: linear-gradient(180deg, transparent 0%, transparent 50%, #000 70%, #000 100%);
   pointer-events: none;
@@ -346,12 +347,14 @@ a { color: inherit; text-decoration: none; }
   align-items: start;
 }
 
-.casaley-pink__col { display: flex; flex-direction: column; }
+/* Fixed gap between moments rather than vh-based min-height + centering —
+   that trick only gives an even gap while every moment's content is
+   shorter than the min-height; a moment with enough copy to exceed it
+   loses its centering slack and ends up flush against the next moment. */
+.casaley-pink__col { display: flex; flex-direction: column; gap: var(--space-9); }
 .casaley-pink__moment {
   display: flex; flex-direction: column; gap: 14px;
   max-width: 460px;
-  min-height: 50vh;
-  justify-content: center;
   opacity: 0.12;
   transition: opacity 2400ms var(--ease-soft);
 }
