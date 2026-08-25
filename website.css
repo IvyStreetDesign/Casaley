@@ -611,6 +611,19 @@ a { color: inherit; text-decoration: none; }
   .casaley-header__nav { display: none; }
 }
 
+@media (max-width: 560px) {
+  /* Below this the hero nav's four items no longer fit on one line at full
+     size and wrap to two rows, crowding the lede straight onto the house.
+     Scaled down here it stays a single row, freeing the lede to sit higher,
+     in the image's open sky, with the nav-to-lede gap left untouched so
+     there's still clear air between the two. */
+  .casaley-hero__nav { font-size: 7.5px; letter-spacing: 0.06em; gap: 5px; }
+  .casaley-hero__lede { font-size: 17px; }
+  /* Shift the crop window up so more open sky shows above the roofline,
+     giving the nav + lede room to sit clear of the house. */
+  .casaley-hero__frame img { object-position: center 12%; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
