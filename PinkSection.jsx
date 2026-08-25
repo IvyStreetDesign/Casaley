@@ -39,11 +39,13 @@ const PinkSection = () => {
   const sectionRef = React.useRef(null);
 
   // Crossfade: activate the moment whose centre has passed 92% of viewport height
+  const suppressUntil = React.useRef(0);
   React.useEffect(() => {
     let raf = 0;
     const TRIGGER = 0.92;
     const pick = () => {
       raf = 0;
+      if (Date.now() < suppressUntil.current) return;
       const trigger = window.innerHeight * TRIGGER;
       // Never fall back below the first moment — its image should already be
       // visible as the section scrolls into view, not a bare background block.
@@ -57,12 +59,28 @@ const PinkSection = () => {
       setActive(idx);
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(pick); };
+    // Section-nav links jump straight to a moment's top (via scroll-margin-top),
+    // which can land two moments at once past the generous 92% trigger line —
+    // the loose threshold is tuned for organic scroll, not a jump. When the
+    // hash matches a moment, activate it directly and hold the scroll-driven
+    // picker off briefly so it doesn't immediately overwrite that choice.
+    const onHashNav = () => {
+      const id = window.location.hash.slice(1);
+      const idx = moments.findIndex(m => m.id === id);
+      if (idx !== -1) {
+        setActive(idx);
+        suppressUntil.current = Date.now() + 700;
+      }
+    };
     pick();
+    if (window.location.hash) onHashNav();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    window.addEventListener("hashchange", onHashNav);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      window.removeEventListener("hashchange", onHashNav);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
@@ -100,6 +118,11 @@ const PinkSection = () => {
                 id={m.id}
                 ref={el => refs.current[i] = el}
                 className={"casaley-pink__moment" + (i === active ? " is-active" : "")}
+                // Anchor-jump lands the text level with the sticky image's own
+                // resting position, not tucked under the header, so nav clicks
+                // land on a pair that reads as aligned rather than a text block
+                // sitting far above a lower, centred image.
+                style={imgHeight != null ? { scrollMarginTop: imgTop + 'px' } : undefined}
               >
                 <div className="casaley-pink__moment-media" aria-hidden="true">
                   <img src={m.img} alt="" />
