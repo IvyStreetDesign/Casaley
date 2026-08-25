@@ -4,7 +4,7 @@ const LenleighSection = () => (
       <div className="casaley-lenleigh__grid">
         <div className="casaley-lenleigh__images">
           <figure className="casaley-lenleigh__portrait">
-            <img src="./assets/len-glenvill.jpg" alt="Len Glenvill" style={{ objectPosition: "73% 50%" }} />
+            <img src="./assets/len-glenvill.jpg" alt="Len Glenvill" />
             <figcaption>Len Glenvill</figcaption>
           </figure>
           <figure className="casaley-lenleigh__portrait">
