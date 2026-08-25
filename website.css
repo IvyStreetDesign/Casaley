@@ -38,11 +38,11 @@ a { color: inherit; text-decoration: none; }
   gap: clamp(10px, 1.2vw, 16px);
   font-family: var(--font-sans);
   font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--casaley-orange);
+  color: rgba(242,226,221,0.85);
 }
 .casaley-header__nav a { transition: color var(--dur-fast) var(--ease-out); }
-.casaley-header__nav a:hover { color: var(--casaley-orange-soft); }
-.casaley-header__nav span { opacity: 0.6; }
+.casaley-header__nav a:hover { color: var(--casaley-pink-light); }
+.casaley-header__nav span { opacity: 0.5; }
 
 /* === Hero — the "Opportunity Unearthed" fold =================== */
 /* A normal-flow fold on the royal-blue field: a framed streetscape with the
@@ -111,11 +111,11 @@ a { color: inherit; text-decoration: none; }
 .casaley-hero__nav {
   display: flex; flex-wrap: wrap; align-items: center;
   gap: clamp(10px, 1.2vw, 16px);
-  color: var(--casaley-orange);
+  color: rgba(255,255,255,0.85);
 }
 .casaley-hero__nav a { transition: color var(--dur-fast) var(--ease-out); }
-.casaley-hero__nav a:hover { color: var(--casaley-orange-soft); }
-.casaley-hero__nav span { opacity: 0.6; }
+.casaley-hero__nav a:hover { color: #fff; }
+.casaley-hero__nav span { opacity: 0.5; }
 .casaley-hero__lede {
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(20px, 2.2vw, 30px);
