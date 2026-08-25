@@ -1,11 +1,6 @@
 const Footer = () => (
   <footer className="casaley-footer">
     <div className="casaley-footer__inner">
-      <div className="casaley-footer__brand">
-        <img src="./assets/casaley-wordmark-dusty-pink.svg" alt="Casaley Officer" className="casaley-footer__mark-img" />
-        <img src="./assets/lenleigh-logo.png" alt="Len Leigh" className="casaley-footer__lenleigh-img" />
-      </div>
-
       <div className="casaley-footer__right">
         <div className="casaley-footer__address">
           <span className="casaley-footer__label">Visit us</span>
@@ -24,6 +19,11 @@ const Footer = () => (
             <a href="http://ivystreet.com.au/" target="_blank" rel="noopener noreferrer">Site by IvyStreet</a>
           </span>
         </div>
+      </div>
+
+      <div className="casaley-footer__brand">
+        <img src="./assets/casaley-wordmark-dusty-pink.svg" alt="Casaley Officer" className="casaley-footer__mark-img" />
+        <img src="./assets/lenleigh-logo.png" alt="Len Leigh" className="casaley-footer__lenleigh-img" />
       </div>
     </div>
   </footer>
