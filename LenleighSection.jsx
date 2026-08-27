@@ -3,7 +3,9 @@ const LenleighSection = () => (
     <div className="casaley-lenleigh__inner">
       <div className="casaley-lenleigh__grid">
         <div className="casaley-lenleigh__logo">
-          <img src="./assets/lenleigh-logo.png" alt="Len Leigh" />
+          {/* Pink-tinted copy of the footer's white logo, matching the heading
+              beside it. Same artwork and alpha, only the fill differs. */}
+          <img src="./assets/lenleigh-logo-pink.png" alt="Len Leigh" />
         </div>
 
         <div className="casaley-lenleigh__content">
