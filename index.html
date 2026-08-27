@@ -37,10 +37,16 @@
     const [formOpen, setFormOpen] = React.useState(false);
     const [headerRevealed, setHeaderRevealed] = React.useState(false);
 
-    // Reveal the fixed header only once the hero fold has scrolled past, so it
-    // never sits over the opening fold.
+    // Reveal the fixed header as the hero image leaves, rather than waiting for
+    // the whole fold: it slides in just as the image's last sliver reaches the
+    // band the header itself occupies.
     React.useEffect(() => {
       const onScroll = () => {
+        const frame = document.querySelector(".casaley-hero__frame");
+        if (frame) {
+          setHeaderRevealed(frame.getBoundingClientRect().bottom <= 64);
+          return;
+        }
         const hero = document.querySelector(".casaley-hero");
         const threshold = hero ? hero.offsetHeight - 72 : window.innerHeight;
         setHeaderRevealed(window.scrollY > threshold);
