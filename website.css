@@ -498,8 +498,11 @@ a { color: inherit; text-decoration: none; }
 
 .casaley-lenleigh__inner { max-width: 1280px; margin: 0 auto; }
 
+/* Same column split and gap as the pink section's grid above it, on the same
+   1280 inner — so this fold's copy starts exactly on the left edge of the
+   image up there, and the logo centres on the band that fold's copy runs in. */
 .casaley-lenleigh__grid {
-  display: grid; grid-template-columns: 1fr 0.85fr; gap: 96px;
+  display: grid; grid-template-columns: 1fr 1.05fr; gap: 96px;
   align-items: center;
 }
 
@@ -512,7 +515,7 @@ a { color: inherit; text-decoration: none; }
 .casaley-lenleigh__logo { position: relative; align-self: stretch; min-height: 0; }
 .casaley-lenleigh__logo img {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  height: 65%; width: auto; max-width: 100%;
+  height: 71.5%; width: auto; max-width: 100%;   /* 65% + 10% */
   object-fit: contain; display: block;
 }
 
