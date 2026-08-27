@@ -49,6 +49,24 @@ a { color: inherit; text-decoration: none; }
 .casaley-header__nav a:hover { color: var(--casaley-pink-light); }
 .casaley-header__nav span { opacity: 0.5; }
 
+/* Hidden until the nav gives way to it on narrow screens, where it takes the
+   left of the bar and the wordmark keeps the right. */
+.casaley-header__burger {
+  display: none;
+  width: 22px; height: 16px; padding: 0;
+  background: none; border: 0; cursor: pointer;
+  flex-direction: column; justify-content: space-between;
+}
+.casaley-header__burger span {
+  display: block; width: 100%; height: 2px;
+  background: var(--casaley-pink-light); border-radius: 1px;
+  transition: transform var(--dur-fast) var(--ease-out),
+              opacity var(--dur-fast) var(--ease-out);
+}
+.casaley-header__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.casaley-header__burger.is-open span:nth-child(2) { opacity: 0; }
+.casaley-header__burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
 /* === Hero — the "Opportunity Unearthed" fold =================== */
 /* A normal-flow fold on the royal-blue field: a framed streetscape with the
    eyebrow + lede over it, the CASALEY keyline straddling the image's lower
@@ -635,8 +653,11 @@ a { color: inherit; text-decoration: none; }
     background: linear-gradient(135deg, rgba(223,90,58,0.98) 0%, rgba(223,90,58,0.9) 100%);
     transform: translateY(100%); border-radius: 16px 16px 0 0; }
   .casaley-rf.is-open { transform: translateY(0); }
-  .casaley-rf__tab { top: auto; bottom: 0; right: 16px; transform: none; width: auto; height: 46px; padding: 0 22px; border-radius: 4px 4px 0 0; flex-direction: row; gap: 8px; }
+  .casaley-rf__tab { top: auto; bottom: 0; right: 0; transform: none; width: auto; height: 46px; padding: 0 22px; border-radius: 0; flex-direction: row; gap: 8px; }
   .casaley-rf__tab span { writing-mode: horizontal-tb; transform: none; }
+  /* The panel rises from the bottom here rather than sliding in from the
+     right, so the chevron turns a quarter clockwise to point the way it goes. */
+  .casaley-rf__tab svg { transform: rotate(90deg); }
   .casaley-rf__tab.is-hidden { transform: translateY(120%); }
   .casaley-pink { padding: 72px 24px 80px; }
   .casaley-pink__head { margin-bottom: 56px; }
@@ -671,7 +692,19 @@ a { color: inherit; text-decoration: none; }
   .casaley-footer__address { align-items: center; }
   .casaley-footer__legal { align-items: center; }
   .casaley-header { padding: 0 24px; }
+  /* Burger takes the nav's place on the left, wordmark stays on the right. */
+  .casaley-header__burger { display: flex; }
   .casaley-header__nav { display: none; }
+  .casaley-header__nav.is-open {
+    display: flex; flex-direction: column; align-items: flex-start;
+    position: absolute; top: 100%; left: 24px; z-index: 4;
+    gap: 12px; padding: 16px 22px;
+    background: var(--casaley-orange);
+    border-radius: var(--radius-sm);
+    font-size: 11px; letter-spacing: 0.18em; color: #fff;
+  }
+  .casaley-header__nav.is-open a:hover { color: #fff; }
+  .casaley-header__nav.is-open span { display: none; }
 }
 
 @media (max-width: 560px) {
