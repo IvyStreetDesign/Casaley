@@ -684,9 +684,6 @@ a { color: inherit; text-decoration: none; }
   /* Keeps the 2px step under the nav at its reduced mobile size. */
   .casaley-hero__disclaimer { font-size: 5.5px; letter-spacing: 0.06em; }
   .casaley-hero__lede { font-size: 17px; }
-  /* Shift the crop window up so more open sky shows above the roofline,
-     giving the nav + lede room to sit clear of the house. */
-  .casaley-hero__frame img { object-position: center 12%; }
 }
 
 /* Wider than the nav's own shrink point: the nav returns to full size at
@@ -716,6 +713,18 @@ a { color: inherit; text-decoration: none; }
   }
   /* The slashes only separate links on one line. */
   .casaley-hero__nav.is-open span { display: none; }
+
+  /* The render is 4:3, so a 16/9 frame only ever showed three quarters of its
+     height — weighted to the top, which cut the foreground off the bottom.
+     Matching the frame to the image's own ratio here shows all of it. */
+  .casaley-hero__frame { aspect-ratio: 4 / 3; }
+
+  /* Centres the lede in the open sky between the burger and the roofline.
+     That roofline sits ~35.9% down the artwork, so at a 4:3 frame it tracks
+     the viewport at ~26.9vw while the burger stays a fixed 36px tall — hence
+     a scaled offset rather than a flat one, holding the midpoint as the image
+     grows with the screen. */
+  .casaley-hero__lede { margin-top: calc(13.45vw - 40px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
