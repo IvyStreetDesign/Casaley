@@ -450,16 +450,16 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
 }
 
-/* The logo spans the copy exactly: stretching this cell overrides the grid's
-   align-items:center so it takes the row's full height — which the copy
-   column alone defines — putting the logo's top on the heading's top and its
-   bottom on the body copy's bottom. The image is absolutely positioned so its
-   own intrinsic height stays out of that row measurement (left in flow it
-   would size the row to the artwork and the two would grow past each other). */
+/* Stretching this cell overrides the grid's align-items:center so it takes
+   the row's full height — which the copy column alone defines — giving the
+   logo a box measured to the copy beside it. The image is absolutely
+   positioned so its own intrinsic height stays out of that row measurement
+   (left in flow it would size the row to the artwork and the two would grow
+   past each other), and sits at 65% of that box, centred on the copy. */
 .casaley-lenleigh__logo { position: relative; align-self: stretch; min-height: 0; }
 .casaley-lenleigh__logo img {
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  height: 100%; width: auto; max-width: 100%;
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  height: 65%; width: auto; max-width: 100%;
   object-fit: contain; display: block;
 }
 
@@ -614,8 +614,11 @@ a { color: inherit; text-decoration: none; }
   .casaley-lenleigh { padding: 96px 24px; }
   .casaley-lenleigh__grid { grid-template-columns: 1fr; gap: 40px; }
   /* Single column here, so there's no copy alongside to take height from —
-     and the absolutely positioned logo would leave the cell at zero. */
+     and the absolutely positioned logo would leave the cell at zero. This
+     height is the logo's own size rather than a share of the copy's, so it
+     fills the box instead of taking the 65% used against the copy. */
   .casaley-lenleigh__logo { align-self: start; height: 88px; }
+  .casaley-lenleigh__logo img { height: 100%; }
   .casaley-lenleigh__body { max-width: none; }
   .casaley-mobile-br { display: block; }
   .casaley-footer { padding: 48px 24px; }
