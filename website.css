@@ -121,6 +121,16 @@ a { color: inherit; text-decoration: none; }
 .casaley-hero__nav a { transition: color var(--dur-fast) var(--ease-out); }
 .casaley-hero__nav a:hover { color: #fff; }
 .casaley-hero__nav span { opacity: 0.5; }
+/* Pinned to the overlay's top-right, which is already inset from the frame by
+   the same amount as the nav opposite it. 9px is 2px under the nav's 11px. */
+.casaley-hero__disclaimer {
+  position: absolute; top: 0; right: 0;
+  font-family: var(--font-sans);
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  pointer-events: none;
+}
 .casaley-hero__lede {
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(20px, 2.2vw, 30px);
@@ -643,10 +653,24 @@ a { color: inherit; text-decoration: none; }
      in the image's open sky, with the nav-to-lede gap left untouched so
      there's still clear air between the two. */
   .casaley-hero__nav { font-size: 7.5px; letter-spacing: 0.06em; gap: 5px; }
+  /* Keeps the 2px step under the nav at its reduced mobile size. */
+  .casaley-hero__disclaimer { font-size: 5.5px; letter-spacing: 0.06em; }
   .casaley-hero__lede { font-size: 17px; }
   /* Shift the crop window up so more open sky shows above the roofline,
      giving the nav + lede room to sit clear of the house. */
   .casaley-hero__frame img { object-position: center 12%; }
+}
+
+/* Wider than the nav's own shrink point: the nav returns to full size at
+   561px but the frame is still too narrow for the credit to clear the last
+   link, so the credit takes its own line above it up to here. The negative
+   margin trims the overlay's own gap back to 4px, keeping the copy below
+   close to where it sits without it. */
+@media (max-width: 700px) {
+  .casaley-hero__disclaimer {
+    position: static; align-self: flex-end;
+    margin-bottom: calc(4px - clamp(20px, 2.6vw, 38px));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

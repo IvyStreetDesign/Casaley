@@ -30,6 +30,7 @@ const Hero = () => {
           <img src="./assets/hero.jpg" alt="" />
           <div className="casaley-hero__veil" aria-hidden="true" />
           <div className="casaley-hero__over">
+            <span className="casaley-hero__disclaimer">Artist impression</span>
             <nav className="casaley-eyebrow casaley-hero__nav" aria-label="Section navigation">
               <a href="#location">Location</a>
               <span aria-hidden="true">/</span>
