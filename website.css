@@ -450,19 +450,17 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
 }
 
-.casaley-lenleigh__images {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-}
-
-.casaley-lenleigh__portrait { margin: 0; }
-.casaley-lenleigh__portrait img {
-  display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover;
-  border-radius: var(--radius-sm);
-}
-.casaley-lenleigh__portrait figcaption {
-  margin-top: 12px;
-  font-family: var(--font-sans); font-size: 13px;
-  color: var(--fg-on-velvet); opacity: 0.7;
+/* The logo spans the copy exactly: stretching this cell overrides the grid's
+   align-items:center so it takes the row's full height — which the copy
+   column alone defines — putting the logo's top on the heading's top and its
+   bottom on the body copy's bottom. The image is absolutely positioned so its
+   own intrinsic height stays out of that row measurement (left in flow it
+   would size the row to the artwork and the two would grow past each other). */
+.casaley-lenleigh__logo { position: relative; align-self: stretch; min-height: 0; }
+.casaley-lenleigh__logo img {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  height: 100%; width: auto; max-width: 100%;
+  object-fit: contain; display: block;
 }
 
 .casaley-lenleigh__title {
@@ -479,6 +477,11 @@ a { color: inherit; text-decoration: none; }
   font-size: 16px; line-height: var(--lh-body);
   color: var(--fg-on-velvet); opacity: 0.9;
   max-width: 460px;
+  /* Drop the UA's trailing 1em: as the last child it adds nothing visible,
+     but it counts toward this column's height and so would push the logo
+     beside it a line's worth below the copy's actual bottom. The heading's
+     own 24px bottom margin still sets the gap above. */
+  margin: 0;
 }
 
 /* === Footer =================================================== */
@@ -610,6 +613,9 @@ a { color: inherit; text-decoration: none; }
   .casaley-pink__col { gap: 56px; }
   .casaley-lenleigh { padding: 96px 24px; }
   .casaley-lenleigh__grid { grid-template-columns: 1fr; gap: 40px; }
+  /* Single column here, so there's no copy alongside to take height from —
+     and the absolutely positioned logo would leave the cell at zero. */
+  .casaley-lenleigh__logo { align-self: start; height: 88px; }
   .casaley-lenleigh__body { max-width: none; }
   .casaley-mobile-br { display: block; }
   .casaley-footer { padding: 48px 24px; }

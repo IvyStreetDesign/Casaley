@@ -2,15 +2,8 @@ const LenleighSection = () => (
   <section className="casaley-lenleigh" id="about">
     <div className="casaley-lenleigh__inner">
       <div className="casaley-lenleigh__grid">
-        <div className="casaley-lenleigh__images">
-          <figure className="casaley-lenleigh__portrait">
-            <img src="./assets/len-glenvill.jpg" alt="Len Glenvill" />
-            <figcaption>Len Glenvill</figcaption>
-          </figure>
-          <figure className="casaley-lenleigh__portrait">
-            <img src="./assets/leigh-squarci.jpg" alt="Leigh Squarci" />
-            <figcaption>Leigh Squarci</figcaption>
-          </figure>
+        <div className="casaley-lenleigh__logo">
+          <img src="./assets/lenleigh-logo.png" alt="Len Leigh" />
         </div>
 
         <div className="casaley-lenleigh__content">
