@@ -61,8 +61,8 @@ const Hero = () => {
             in one of Melbourne&rsquo;s growing communities.
           </p>
           <p className="casaley-hero__intro-copy">
-            Well connected to shops, schools and transport, Casaley offers builders
-            the opportunity to deliver quality homes in an established growth
+            Well connected to shops, schools and transport, Casaley offers the
+            opportunity to deliver quality homes in an established growth
             corridor. With strong buyer demand and a well-positioned location,
             it&rsquo;s a project with plenty of potential from the ground up.
           </p>
