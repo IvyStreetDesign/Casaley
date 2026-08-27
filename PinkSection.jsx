@@ -167,7 +167,7 @@ const PinkSection = () => {
             {tailBuffer != null && (
               <div
                 aria-hidden="true"
-                style={{ height: tailBuffer + 'px', marginTop: 'calc(-1 * var(--space-9))' }}
+                style={{ height: tailBuffer + 'px', marginTop: 'calc(-1 * var(--pink-moment-gap))' }}
               />
             )}
           </div>

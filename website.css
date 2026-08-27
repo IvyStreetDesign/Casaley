@@ -374,7 +374,12 @@ a { color: inherit; text-decoration: none; }
    that trick only gives an even gap while every moment's content is
    shorter than the min-height; a moment with enough copy to exceed it
    loses its centering slack and ends up flush against the next moment. */
-.casaley-pink__col { display: flex; flex-direction: column; gap: var(--space-9); }
+/* One token for the moment-to-moment gap: the trailing spacer cancels this
+   same value with a negative margin, so the two must never drift apart. */
+.casaley-pink__col {
+  --pink-moment-gap: 144px;
+  display: flex; flex-direction: column; gap: var(--pink-moment-gap);
+}
 .casaley-pink__moment {
   display: flex; flex-direction: column; gap: 14px;
   max-width: 460px;
@@ -610,7 +615,7 @@ a { color: inherit; text-decoration: none; }
   }
   .casaley-pink__moment-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .casaley-pink__moment-register { display: none; }
-  .casaley-pink__col { gap: 56px; }
+  .casaley-pink__col { --pink-moment-gap: 56px; }
   .casaley-lenleigh { padding: 96px 24px; }
   .casaley-lenleigh__grid { grid-template-columns: 1fr; gap: 40px; }
   /* Single column here, so there's no copy alongside to take height from —
