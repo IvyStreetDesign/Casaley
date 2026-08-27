@@ -1,4 +1,6 @@
 const Hero = () => {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
   // Subtle parallax: the keyline drifts up a touch slower than the page as the
   // fold scrolls away. Disabled under reduced-motion.
   React.useEffect(() => {
@@ -30,8 +32,27 @@ const Hero = () => {
           <img src="./assets/hero.jpg" alt="" />
           <div className="casaley-hero__veil" aria-hidden="true" />
           <div className="casaley-hero__over">
+            {/* Stands in for the nav on narrow screens, where the four links no
+                longer sit comfortably on one line over the image. */}
+            <button
+              type="button"
+              className={"casaley-hero__burger" + (menuOpen ? " is-open" : "")}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(o => !o)}
+            >
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+              <span aria-hidden="true" />
+            </button>
             <span className="casaley-hero__disclaimer">Artist impression</span>
-            <nav className="casaley-eyebrow casaley-hero__nav" aria-label="Section navigation">
+            <nav
+              className={"casaley-eyebrow casaley-hero__nav" + (menuOpen ? " is-open" : "")}
+              aria-label="Section navigation"
+              /* A link jump would otherwise leave the panel sitting open over
+                 the section it just moved to. */
+              onClick={() => setMenuOpen(false)}
+            >
               <a href="#location">Location</a>
               <span aria-hidden="true">/</span>
               <a href="#now-selling">Now selling</a>
