@@ -602,10 +602,10 @@ a { color: inherit; text-decoration: none; }
 
 /* === Responsive ============================================== */
 @media (max-width: 980px) {
-  /* Image runs the full width of the screen here — the side inset moves off
-     the fold and onto the intro copy below it, so the framed image gains the
-     margins back as room for the nav, lede and credit sitting over it. */
-  .casaley-hero { padding-left: 0; padding-right: 0; }
+  /* Image runs to the top and both edges of the screen here — the side inset
+     moves off the fold and onto the intro copy below it, so the framed image
+     gains the margins back as room for the nav, lede and credit over it. */
+  .casaley-hero { padding-top: 0; padding-left: 0; padding-right: 0; }
   .casaley-hero__intro { padding-left: var(--hero-edge); padding-right: var(--hero-edge); }
   .casaley-hero__stage { padding-bottom: 17vw; }
   .casaley-hero__intro { grid-template-columns: 1fr; gap: clamp(18px, 4vw, 28px); }
@@ -674,15 +674,11 @@ a { color: inherit; text-decoration: none; }
    margin trims the overlay's own gap back to 4px, keeping the copy below
    close to where it sits without it. */
 @media (max-width: 700px) {
-  .casaley-hero__disclaimer {
-    position: static; align-self: flex-end;
-    /* Sits midway between the top of the screen and the nav: pulled up to
-       just inside the image's top edge (a literal midpoint would land above
-       it and be clipped), with the nav pushed down to match, so the credit
-       ends up centred in the band above it. */
-    margin-top: -14px;
-    margin-bottom: 14px;
-  }
+  /* With the image starting at the top of the screen, the overlay's own inset
+     and gap already put the credit midway between the screen top and the nav
+     (inset + h/2 is exactly half of inset + h + gap when the two match), so
+     it needs no nudge of its own. */
+  .casaley-hero__disclaimer { position: static; align-self: flex-end; }
 }
 
 @media (prefers-reduced-motion: reduce) {
