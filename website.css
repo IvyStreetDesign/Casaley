@@ -753,11 +753,11 @@ a { color: inherit; text-decoration: none; }
      is needed here — cover shows all of it with no crop on either axis. */
 
   /* Centres the lede in the open sky between the burger and the roofline.
-     That roofline sits ~47.6% down this artwork, so at the 16:9 frame it
-     tracks the viewport at ~26.8vw while the burger stays a fixed 36px tall
+     That roofline sits ~36.7% down this artwork, so at the 16:9 frame it
+     tracks the viewport at ~20.6vw while the burger stays a fixed 36px tall
      — hence a scaled offset rather than a flat one, holding the midpoint as
      the image grows with the screen. */
-  .casaley-hero__lede { margin-top: calc(13.4vw - 40px); }
+  .casaley-hero__lede { margin-top: calc(10.3vw - 40px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
