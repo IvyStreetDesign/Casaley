@@ -92,7 +92,7 @@ const RegisterForm = ({ open, onOpen, onClose }) => {
                 options={["Builder", "Investor", "Owner occupier", "Buyer's advocate"]} />
             </div>
             <RegisterField label="Product" name="product" value={data.product} onChange={set("product")}
-              options={["3 bedroom home", "4 bedroom home", "Not sure"]} />
+              options={["House and Land", "Land"]} />
 
             <button type="submit" className="casaley-rf__submit">
               {submitted ? "Thank you ✓" : "Submit"}
