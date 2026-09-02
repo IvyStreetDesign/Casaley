@@ -45,7 +45,7 @@
       const onScroll = () => {
         const frame = document.querySelector(".casaley-hero__frame");
         if (frame) {
-          setHeaderRevealed(frame.getBoundingClientRect().bottom <= 64);
+          setHeaderRevealed(frame.getBoundingClientRect().bottom <= 80); // matches --header-h in website.css
           return;
         }
         const hero = document.querySelector(".casaley-hero");
