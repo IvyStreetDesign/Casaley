@@ -24,6 +24,8 @@ const Header = ({ revealed = false }) => {
         aria-label="Section navigation"
         onClick={() => setMenuOpen(false)}
       >
+        <a href="#amenity">Amenity</a>
+        <span aria-hidden="true">/</span>
         <a href="#location">Location</a>
         <span aria-hidden="true">/</span>
         <a href="#now-selling">Now selling</a>

@@ -53,6 +53,8 @@ const Hero = () => {
                  the section it just moved to. */
               onClick={() => setMenuOpen(false)}
             >
+              <a href="#amenity">Amenity</a>
+              <span aria-hidden="true">/</span>
               <a href="#location">Location</a>
               <span aria-hidden="true">/</span>
               <a href="#now-selling">Now selling</a>
