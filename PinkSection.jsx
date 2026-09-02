@@ -18,14 +18,22 @@ const moments = [
       "Introducing Casaley, a boutique residential community with a unique offering.",
       "An exclusive collection of just 60 lots, perfected by its Officer location in the heart of Melbourne's south-east. Premium land ready for architecturally designed homes, built by the builder of your choice.",
     ],
-    img: "./assets/pink-facade.jpg",
+    // A plan, not a photo: object-fit: cover would crop the numbered lots at
+    // the frame's edges, so this one gets contain instead, with a background
+    // sampled from the artwork's own navy field to letterbox seamlessly at
+    // any frame ratio (the sticky column runs from portrait on tablets to
+    // landscape on wide desktop, with nothing in between to design a single
+    // crop against).
+    img: "./assets/pink-masterplan.jpg",
+    imgFit: "contain",
+    imgBg: "#3b4fa2",
     cta: { label: "View masterplan", href: "./assets/casaley-masterplan.pdf", download: "Casaley-Masterplan.pdf" },
   },
   {
     id: "project-updates",
     eyebrow: "Project updates",
-    title: "Stage 1 in progress.",
-    body: ["We're thrilled to announce that we've broken ground on the Casaley site, with civil works on stage 1 now underway."],
+    title: "Casaley is now selling.",
+    body: ["The opportunity to be part of Casaley has arrived. Sales are now underway, with a selection of homesites available to secure. Whether planning a future home or considering your next property opportunity, now is the time to explore what’s available and find your place within this new Officer community."],
     img: "./assets/pink-aerial-placeholder.jpg",
     placeholder: true,
   },
@@ -141,7 +149,11 @@ const PinkSection = () => {
                 style={imgHeight != null ? { scrollMarginTop: imgTop + 'px' } : undefined}
               >
                 <div className="casaley-pink__moment-media" aria-hidden="true">
-                  <img src={m.img} alt="" />
+                  <img
+                    src={m.img}
+                    alt=""
+                    style={m.imgFit ? { objectFit: m.imgFit, background: m.imgBg } : undefined}
+                  />
                   {m.placeholder && <span className="casaley-pink__placeholder-badge">Placeholder only</span>}
                 </div>
                 <div className="casaley-pink__moment-num">0{i + 1}</div>
@@ -180,7 +192,11 @@ const PinkSection = () => {
             <div className="casaley-pink__stack">
               {moments.map((m, i) => (
                 <div key={m.id} className={"casaley-pink__img" + (i === active ? " is-active" : "")}>
-                  <img src={m.img} alt="" />
+                  <img
+                    src={m.img}
+                    alt=""
+                    style={m.imgFit ? { objectFit: m.imgFit, background: m.imgBg } : undefined}
+                  />
                   {m.placeholder && <span className="casaley-pink__placeholder-badge">Placeholder only</span>}
                 </div>
               ))}
