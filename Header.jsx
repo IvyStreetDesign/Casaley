@@ -7,18 +7,9 @@ const Header = ({ revealed = false }) => {
 
   return (
     <header className={"casaley-header" + (revealed ? " is-revealed" : "")}>
-      {/* Stands in for the nav on narrow screens, matching the hero fold's. */}
-      <button
-        type="button"
-        className={"casaley-header__burger" + (menuOpen ? " is-open" : "")}
-        aria-label={menuOpen ? "Close menu" : "Open menu"}
-        aria-expanded={menuOpen}
-        onClick={() => setMenuOpen(o => !o)}
-      >
-        <span aria-hidden="true" />
-        <span aria-hidden="true" />
-        <span aria-hidden="true" />
-      </button>
+      <a href="#top" className="casaley-header__mark" aria-label="Casaley Officer">
+        <img src="./assets/casaley-wordmark-dusty-pink.svg" alt="Casaley" className="casaley-header__wordmark" />
+      </a>
       <nav
         className={"casaley-header__nav" + (menuOpen ? " is-open" : "")}
         aria-label="Section navigation"
@@ -34,9 +25,18 @@ const Header = ({ revealed = false }) => {
         <span aria-hidden="true">/</span>
         <a href="#about">About</a>
       </nav>
-      <a href="#top" className="casaley-header__mark" aria-label="Casaley Officer">
-        <img src="./assets/casaley-wordmark-dusty-pink.svg" alt="Casaley" className="casaley-header__wordmark" />
-      </a>
+      {/* Stands in for the nav on narrow screens, matching the hero fold's. */}
+      <button
+        type="button"
+        className={"casaley-header__burger" + (menuOpen ? " is-open" : "")}
+        aria-label={menuOpen ? "Close menu" : "Open menu"}
+        aria-expanded={menuOpen}
+        onClick={() => setMenuOpen(o => !o)}
+      >
+        <span aria-hidden="true" />
+        <span aria-hidden="true" />
+        <span aria-hidden="true" />
+      </button>
     </header>
   );
 };

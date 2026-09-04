@@ -12,24 +12,22 @@ body { overflow-x: hidden; }
 a { color: inherit; text-decoration: none; }
 
 /* === Page chrome ============================================== */
-/* --header-h: single source of truth for the sticky header's height, reused
-   by every section's scroll-margin-top so an anchor jump still lands just
-   clear of the bar. The JS equivalents (PinkSection's sticky-image offset,
-   index.html's reveal threshold) can't read a CSS var and are hardcoded to
-   match — keep them in step if this changes again. */
-.casaley-page { position: relative; min-height: 100vh; --hero-edge: clamp(28px, 3vw, 48px); --header-h: 80px; }
+/* --header-h: single source of truth for the header bar's height — the hero
+   fold's own in-flow topbar and the fixed sticky header both read it, so
+   they always match exactly. It's 3x --hero-edge, the "top margin" the
+   topbar occupies. JS that needs this in px (PinkSection's sticky-image
+   offset) measures the rendered .casaley-header element directly rather
+   than duplicating the formula, since it's fluid, not a flat constant. */
+.casaley-page { position: relative; min-height: 100vh; --hero-edge: clamp(28px, 3vw, 48px); --header-h: calc(var(--hero-edge) * 3); }
 
 /* === Header =================================================== */
 .casaley-header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 40;
   height: var(--header-h);
   display: flex; align-items: center; justify-content: space-between;
-  /* Same inset as the hero fold's own nav: the frame's edge margin plus the
-     overlay's inset inside it (the two clamp()s .casaley-hero and
-     .casaley-hero__over use), so the nav items land in exactly the spot they
-     occupy up in the top fold — and the wordmark opposite them sits the same
-     distance in from the right edge. */
-  padding: 0 calc(var(--hero-edge) + clamp(20px, 2.4vw, 36px));
+  /* Same inset as the hero fold's own topbar, so the mark and nav land in
+     exactly the spot they occupy at rest and the handoff reads seamless. */
+  padding: 0 var(--hero-edge);
   background: var(--casaley-royal-blue);
   opacity: 0;
   transform: translateY(-6px);
@@ -79,16 +77,28 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   background: var(--casaley-royal-blue);
   color: var(--casaley-pink-light);
-  /* Equal inset on the top and sides around the framed image. Bottom
-     padding = stage's 10vw reserve + .casaley-hero__intro's own margin-top
-     clamp() — the exact same two terms that make up the gap from the
-     image's bottom to the intro block's top — so the intro block sits
+  /* No top padding: the topbar below is a normal-flow element that fills
+     that role itself. Equal inset on the sides around the framed image.
+     Bottom padding = stage's 10vw reserve + .casaley-hero__intro's own
+     margin-top clamp() — the exact same two terms that make up the gap from
+     the image's bottom to the intro block's top — so the intro block sits
      centred between the bottom of the image and the top of the pink
      section at any viewport width. */
-  padding: var(--hero-edge) var(--hero-edge) calc(10vw + clamp(26px, 3.5vw, 58px));
+  padding: 0 var(--hero-edge) calc(10vw + clamp(26px, 3.5vw, 58px));
   overflow: hidden;
 }
 .casaley-mobile-br { display: none; }
+
+/* In-flow bar filling the fold's top margin: the mark/nav/burger classes
+   are shared verbatim with .casaley-header (below) so the two are pixel
+   identical, and the fixed header simply takes over the same visual slot
+   the instant this one scrolls out of view. */
+.casaley-hero__topbar {
+  position: relative; z-index: 2;
+  height: var(--header-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--hero-edge);
+}
 
 /* Brand pattern, uniform outlined line-work. Solid blue from the top through
    just below the image, then fading in so the pattern reads under the
@@ -134,38 +144,7 @@ a { color: inherit; text-decoration: none; }
   right: clamp(20px, 2.4vw, 36px);
   display: flex; flex-direction: column; gap: clamp(20px, 2.6vw, 38px);
 }
-.casaley-hero__eyebrow { color: rgba(255,255,255,0.85); }
-.casaley-hero__nav {
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: clamp(10px, 1.2vw, 16px);
-  color: rgba(255,255,255,0.85);
-}
-.casaley-hero__nav a { transition: color var(--dur-fast) var(--ease-out); }
-.casaley-hero__nav a:hover { color: #fff; }
-.casaley-hero__nav span { opacity: 0.5; }
-/* Hidden until the nav gives way to it on narrow screens. Pinned to the
-   overlay's top-left, so its top lands on the credit's opposite it. */
-.casaley-hero__burger {
-  display: none;
-  position: absolute; top: 0; left: 0; z-index: 4;
-  width: 22px; height: 16px; padding: 0;
-  background: none; border: 0; cursor: pointer;
-  flex-direction: column; justify-content: space-between;
-}
-.casaley-hero__burger span {
-  display: block; width: 100%; height: 2px;
-  background: #fff; border-radius: 1px;
-  transition: transform var(--dur-fast) var(--ease-out),
-              opacity var(--dur-fast) var(--ease-out);
-}
-/* Bars sit at 0 / 7 / 14 across the 16px box, so 7px of travel meets in the
-   middle as a cross. */
-.casaley-hero__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.casaley-hero__burger.is-open span:nth-child(2) { opacity: 0; }
-.casaley-hero__burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-/* Pinned to the overlay's top-right, which is already inset from the frame by
-   the same amount as the nav opposite it. 9px is 2px under the nav's 11px. */
+/* Pinned to the overlay's top-right. 9px is 2px under the topbar nav's 11px. */
 .casaley-hero__disclaimer {
   position: absolute; top: 0; right: 0;
   font-family: var(--font-sans);
@@ -176,10 +155,10 @@ a { color: inherit; text-decoration: none; }
 }
 .casaley-hero__lede {
   font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(20px, 2.2vw, 30px);
-  line-height: 1.22;
+  font-size: clamp(30px, 3.6vw, 50px);
+  line-height: 1.15;
   letter-spacing: var(--track-tight);
-  margin: 0; max-width: 560px;
+  margin: 0; max-width: 640px;
   color: #fff;
 }
 
@@ -243,13 +222,12 @@ a { color: inherit; text-decoration: none; }
 /* The tab is the only way in — always visible (the panel no longer opens on
    its own), spicy orange, and prominent. */
 .casaley-rf__tab {
-  /* Top edge level with the top of the "A hidden gem..." lede: hero-edge to
-     frame top, plus the over-inset and nav-to-lede gap (same clamp()s as
-     .casaley-hero__over and its gap) down to the lede itself, plus the
-     13.1875px nav line height, plus half the tab's own height to land the
-     *top* edge there once translateY(-50%) re-centres it. */
+  /* Top edge level with the top of the "A hidden gem..." lede: topbar height
+     to frame top, plus the overlay's own top inset (lede is its first flow
+     child now, so no nav-to-lede gap term), plus half the tab's own height
+     to land the *top* edge there once translateY(-50%) re-centres it. */
   position: fixed;
-  top: calc(var(--hero-edge) + clamp(20px, 2.4vw, 36px) + clamp(20px, 2.6vw, 38px) + 168.1875px);
+  top: calc(var(--header-h) + clamp(20px, 2.4vw, 36px) + 155px);
   right: 0; transform: translateY(-50%);
   z-index: 45;
   /* Same width as the hero's own side margin, so it sits flush in that
@@ -283,10 +261,10 @@ a { color: inherit; text-decoration: none; }
    Everything inside is sized in em off a viewport-driven font-size, so the
    whole panel scales down on smaller windows and never scrolls internally. */
 .casaley-rf {
-  /* Vertically centred on the framed image (image centre = edge + half the
-     16:9 image height). */
+  /* Vertically centred on the framed image (image centre = topbar height,
+     i.e. the frame's own top offset now, + half the 16:9 image height). */
   position: fixed;
-  top: calc(var(--hero-edge) + (100vw - 2 * var(--hero-edge)) * 0.28125);
+  top: calc(var(--header-h) + (100vw - 2 * var(--hero-edge)) * 0.28125);
   right: 0;
   z-index: 50;
   width: min(480px, 92vw);
@@ -652,10 +630,11 @@ a { color: inherit; text-decoration: none; }
 
 /* === Responsive ============================================== */
 @media (max-width: 980px) {
-  /* Image runs to the top and both edges of the screen here — the side inset
-     moves off the fold and onto the intro copy below it, so the framed image
-     gains the margins back as room for the nav, lede and credit over it. */
-  .casaley-hero { padding-top: 0; padding-left: 0; padding-right: 0; }
+  /* Image runs edge to edge here (topbar above it keeps its own 24px inset
+     below) — the side inset moves off the fold and onto the intro copy
+     below it instead. */
+  .casaley-hero { padding-left: 0; padding-right: 0; }
+  .casaley-hero__topbar { padding: 0 24px; }
   .casaley-hero__intro { padding-left: var(--hero-edge); padding-right: var(--hero-edge); }
   .casaley-hero__stage { padding-bottom: 17vw; }
   .casaley-hero__intro { grid-template-columns: 1fr; gap: clamp(18px, 4vw, 28px); }
@@ -703,12 +682,13 @@ a { color: inherit; text-decoration: none; }
   .casaley-footer__address { align-items: center; }
   .casaley-footer__legal { align-items: center; }
   .casaley-header { padding: 0 24px; }
-  /* Burger takes the nav's place on the left, wordmark stays on the right. */
+  /* Burger takes the nav's place on the right, mark stays on the left — same
+     swap applies inside .casaley-hero__topbar since it shares these classes. */
   .casaley-header__burger { display: flex; }
   .casaley-header__nav { display: none; }
   .casaley-header__nav.is-open {
     display: flex; flex-direction: column; align-items: flex-start;
-    position: absolute; top: 100%; left: 24px; z-index: 4;
+    position: absolute; top: 100%; right: 24px; z-index: 4;
     gap: 12px; padding: 16px 22px;
     background: var(--casaley-orange);
     border-radius: var(--radius-sm);
@@ -719,54 +699,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 560px) {
-  /* Below this the hero nav's four items no longer fit on one line at full
-     size and wrap to two rows, crowding the lede straight onto the house.
-     Scaled down here it stays a single row, freeing the lede to sit higher,
-     in the image's open sky, with the nav-to-lede gap left untouched so
-     there's still clear air between the two. */
-  .casaley-hero__nav { font-size: 7.5px; letter-spacing: 0.06em; gap: 5px; }
-  /* Keeps the 2px step under the nav at its reduced mobile size. */
+  /* Keeps the 2px step under the topbar nav at its reduced mobile size. */
   .casaley-hero__disclaimer { font-size: 5.5px; letter-spacing: 0.06em; }
-  .casaley-hero__lede { font-size: 17px; }
-}
-
-/* Wider than the nav's own shrink point: the nav returns to full size at
-   561px but the frame is still too narrow for the credit to clear the last
-   link, so the credit takes its own line above it up to here. The negative
-   margin trims the overlay's own gap back to 4px, keeping the copy below
-   close to where it sits without it. */
-@media (max-width: 700px) {
-  /* With the image starting at the top of the screen, the overlay's own inset
-     and gap already put the credit midway between the screen top and the nav
-     (inset + h/2 is exactly half of inset + h + gap when the two match), so
-     it needs no nudge of its own. */
-  .casaley-hero__disclaimer { position: static; align-self: flex-end; }
-
-  /* Nav gives way to the burger. Both are out of flow — the nav is display:none
-     until opened and absolute after — so the lede sits in the same place either
-     way and does not jump as the panel opens. */
-  .casaley-hero__burger { display: flex; }
-  .casaley-hero__nav { display: none; }
-  .casaley-hero__nav.is-open {
-    display: flex; flex-direction: column; align-items: flex-start;
-    position: absolute; top: 34px; left: 0; z-index: 4;
-    gap: 12px; padding: 16px 22px;
-    background: var(--casaley-orange);
-    border-radius: var(--radius-sm);
-    font-size: 11px; letter-spacing: 0.18em; color: #fff;
-  }
-  /* The slashes only separate links on one line. */
-  .casaley-hero__nav.is-open span { display: none; }
-
-  /* This render is 16:9, matching the frame's own base ratio, so no override
-     is needed here — cover shows all of it with no crop on either axis. */
-
-  /* Centres the lede in the open sky between the burger and the roofline.
-     That roofline sits ~36.7% down this artwork, so at the 16:9 frame it
-     tracks the viewport at ~20.6vw while the burger stays a fixed 36px tall
-     — hence a scaled offset rather than a flat one, holding the midpoint as
-     the image grows with the screen. */
-  .casaley-hero__lede { margin-top: calc(10.3vw - 40px); }
+  .casaley-hero__lede { font-size: 26px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

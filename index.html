@@ -38,14 +38,14 @@
     const [formOpen, setFormOpen] = React.useState(false);
     const [headerRevealed, setHeaderRevealed] = React.useState(false);
 
-    // Reveal the fixed header as the hero image leaves, rather than waiting for
-    // the whole fold: it slides in just as the image's last sliver reaches the
-    // band the header itself occupies.
+    // Reveal the fixed header the instant the hero's own topbar scrolls out
+    // of view — same look, same slot — so the mark and nav never really
+    // disappear, rather than waiting for the whole hero image to clear.
     React.useEffect(() => {
       const onScroll = () => {
-        const frame = document.querySelector(".casaley-hero__frame");
-        if (frame) {
-          setHeaderRevealed(frame.getBoundingClientRect().bottom <= 80); // matches --header-h in website.css
+        const topbar = document.querySelector(".casaley-hero__topbar");
+        if (topbar) {
+          setHeaderRevealed(topbar.getBoundingClientRect().bottom <= 0);
           return;
         }
         const hero = document.querySelector(".casaley-hero");

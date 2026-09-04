@@ -105,7 +105,10 @@ const PinkSection = () => {
       if (!sectionRef.current || !refs.current[0]) return;
       if (window.matchMedia('(max-width: 980px)').matches) { setImgTop(0); setImgHeight(null); setTailBuffer(null); return; }
       const h = refs.current[0].getBoundingClientRect().height;
-      const navH = 80; // matches --header-h in website.css
+      // --header-h is fluid (3x --hero-edge), not a flat constant, so read
+      // the real rendered header height rather than duplicating the formula.
+      const headerEl = document.querySelector('.casaley-header');
+      const navH = headerEl ? headerEl.getBoundingClientRect().height : 80;
       setImgHeight(h);
       const top = navH + (window.innerHeight - navH - h) / 2;
       setImgTop(top);
