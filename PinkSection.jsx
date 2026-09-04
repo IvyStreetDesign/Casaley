@@ -18,14 +18,6 @@ const moments = [
       "Introducing Casaley, a boutique residential community with a unique offering.",
       "An exclusive collection of just 60 lots, perfected by its Officer location in the heart of Melbourne's south-east. Premium land ready for architecturally designed homes, built by the builder of your choice.",
     ],
-    img: "./assets/pink-facade.jpg",
-    cta: { label: "Download masterplan", href: "./assets/casaley-masterplan.pdf", download: "Casaley-Masterplan.pdf" },
-  },
-  {
-    id: "project-updates",
-    eyebrow: "Project updates",
-    title: "Casaley is now selling.",
-    body: ["The opportunity to be part of Casaley has arrived. Sales are now underway, with a selection of homesites available to secure. Whether planning a future home or considering your next property opportunity, now is the time to explore what’s available and find your place within this new Officer community."],
     // A plan, not a photo: object-fit: cover would crop the numbered lots at
     // the frame's edges, so this one gets contain instead, with a background
     // sampled from the artwork's own navy field to letterbox seamlessly at
@@ -35,6 +27,14 @@ const moments = [
     img: "./assets/pink-masterplan.jpg",
     imgFit: "contain",
     imgBg: "#3b4fa2",
+    cta: { label: "Download masterplan", href: "./assets/casaley-masterplan.pdf", download: "Casaley-Masterplan.pdf" },
+  },
+  {
+    id: "project-updates",
+    eyebrow: "Project updates",
+    title: "Casaley is now selling.",
+    body: ["The opportunity to be part of Casaley has arrived. Sales are now underway, with a selection of homesites available to secure. Whether planning a future home or considering your next property opportunity, now is the time to explore what’s available and find your place within this new Officer community."],
+    img: "./assets/pink-lifestyle.jpg",
   },
 ];
 
