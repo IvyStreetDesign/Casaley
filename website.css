@@ -231,12 +231,16 @@ a { color: inherit; text-decoration: none; }
 /* The tab is the only way in — always visible (the panel no longer opens on
    its own), spicy orange, and prominent. */
 .casaley-rf__tab {
-  /* Top edge level with the top of the "A hidden gem..." lede: topbar height
-     to frame top, plus the overlay's own top inset (lede is its first flow
-     child now, so no nav-to-lede gap term), plus half the tab's own height
-     to land the *top* edge there once translateY(-50%) re-centres it. */
+  /* Centred (via translateY(-50%) below) between the top of the frame and the
+     top of the big CASALEY keyline straddling its lower edge.
+     Frame top = --header-h. Keyline top = frame top + frame height + 7vw
+     (stage's 10vw bottom reserve less the keyline's own 3vw bottom offset)
+     minus the keyline's own rendered height (29.594vw tall at its 100vw
+     width, from the asset's 117.522 x 34.7798 intrinsic size). Averaging
+     the two and simplifying leaves frame-top + half the frame height (the
+     same term .casaley-rf's own top uses below) minus 11.297vw. */
   position: fixed;
-  top: calc(var(--header-h) + clamp(20px, 2.4vw, 36px) + 155px);
+  top: calc(var(--header-h) + (100vw - 2 * var(--hero-edge)) * 0.28125 - 11.297vw);
   right: 0; transform: translateY(-50%);
   z-index: 45;
   /* Same width as the hero's own side margin, so it sits flush in that
