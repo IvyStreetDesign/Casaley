@@ -21,9 +21,8 @@ SRI hashes as Alba, so an internet connection is required on first load.
 
 ## File map — Alba → Casaley
 
-Every Alba file has a one-to-one counterpart. Only the two colour-named
-section components were renamed, because Casaley's equivalents are pink and
-orange rather than beige and yellow.
+Every Alba file has a one-to-one counterpart, renamed where Casaley's content
+or brand diverges from Alba's.
 
 | Alba | Casaley | Notes |
 | --- | --- | --- |
@@ -34,7 +33,7 @@ orange rather than beige and yellow.
 | `Hero.jsx` | `Hero.jsx` | |
 | `RegisterForm.jsx` | `RegisterForm.jsx` | |
 | `BeigeSection.jsx` | `PinkSection.jsx` | The editorial / three-moment section |
-| `YellowSection.jsx` | `OrangeSection.jsx` | The atmospheric statement section |
+| `YellowSection.jsx` | `LenleighSection.jsx` | Was the atmospheric statement section; now an "About Lenleigh" bio fold on velvet |
 | `Footer.jsx` | `Footer.jsx` | |
 | `404.html`, `privacy-policy.html`, `disclaimer.html` | same | |
 
@@ -70,10 +69,8 @@ these match exactly:
 | `--casaley-royal-blue` | `#34469d` | Primary dark — headings, CTAs (walnut) |
 | `--casaley-pink-light` | `#f2e2dd` | Page ground, editorial section (beige) |
 | `--casaley-pink` | `#e4c3bc` | Deeper pink surfaces |
-| `--casaley-velvet` | `#8b4749` | Register panel and tab (powder blue) |
-| `--casaley-orange` | `#df5a3a` | Atmospheric statement section (yellow) |
-
-Blue type on the orange section follows the brand's own poster artwork.
+| `--casaley-velvet` | `#8b4749` | Register panel and tab; About Lenleigh section background (powder blue) |
+| `--casaley-orange` | `#df5a3a` | CTAs and the register tab (yellow) |
 
 **Brandmark.** Alba tints one wordmark with CSS filters. Casaley ships four
 master colourways, so each placement references the correct file directly —
@@ -81,9 +78,10 @@ truer to the artwork than filtering.
 
 **Pattern.** `Casaley pattern.pdf` was decomposed to its underlying geometry
 and rebuilt as a seamless 98.065 × 108.72 tile (`assets/pattern-tile.svg`).
-It replaces Alba's two photographic textures: the header bar (at bar height,
-so it reads as fine texture) and the statement section (at full brand scale,
-multiplied, as in the brand collateral).
+It replaces Alba's photographic header-bar texture (at bar height, so it
+reads as fine texture) and appears again, full-bleed, behind the hero
+wordmark. The About Lenleigh section runs as a flat velvet field with no
+texture.
 
 **Type.** Alba pairs Moret with Maison Neue. Casaley runs a single-family
 system — Host Grotesk across display, body and utility roles, separated by
@@ -91,18 +89,17 @@ weight and tracking. Self-hosted as a variable woff2 (~67 KB total). To serve
 the Adobe Fonts (Typekit) cut instead, delete the four `@font-face` blocks in
 `colors_and_type.css` and add your kit to `index.html`.
 
-**Imagery.** Extracted from the supplied `Casaley website.pdf`. Three
-photographs plus one tighter crop (`detail.jpg`) for the sticky column's
-resting state.
+**Imagery.** The hero uses a streetscape photo extracted from the supplied
+`Casaley website.pdf`. The three-moment section runs one photo per moment —
+a station photo for Location, a facade render for Now Selling, and a
+placeholder aerial for Project Updates (flagged with an on-image
+"Placeholder only" badge until final imagery is supplied).
 
 ## Before this goes live
 
 - **Register form has no endpoint.** `handleSubmit` in `RegisterForm.jsx`
   fakes the confirmation, same as Alba's. Wire it to your CRM or a form
   service.
-- **Footer credits are em-dash placeholders.** The consultant team wasn't
-  supplied. `credits` at the top of `Footer.jsx` takes a name and optional
-  href per slot; restore `<img>` logos there if you'd rather.
 - **Hero is a still.** Alba's hero runs a looping `alba.mp4`. No Casaley video
   was supplied, so `Hero.jsx` uses `hero.jpg`. The CSS already styles
   `.casaley-hero__image video` identically — drop a video in and swap the tag.

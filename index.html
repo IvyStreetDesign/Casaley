@@ -25,9 +25,10 @@
 -->
 <script type="text/babel" src="./Header.jsx"></script>
 <script type="text/babel" src="./Hero.jsx"></script>
+<script type="text/babel" src="./AmenityMapSection.jsx"></script>
 <script type="text/babel" src="./RegisterForm.jsx"></script>
 <script type="text/babel" src="./PinkSection.jsx"></script>
-<script type="text/babel" src="./OrangeSection.jsx"></script>
+<script type="text/babel" src="./LenleighSection.jsx"></script>
 <script type="text/babel" src="./Footer.jsx"></script>
 
 <script type="text/babel">
@@ -37,10 +38,16 @@
     const [formOpen, setFormOpen] = React.useState(false);
     const [headerRevealed, setHeaderRevealed] = React.useState(false);
 
-    // Reveal the fixed header only once the hero fold has scrolled past, so it
-    // never sits over the opening fold.
+    // Reveal the fixed header the instant the hero's own topbar scrolls out
+    // of view — same look, same slot — so the mark and nav never really
+    // disappear, rather than waiting for the whole hero image to clear.
     React.useEffect(() => {
       const onScroll = () => {
+        const topbar = document.querySelector(".casaley-hero__topbar");
+        if (topbar) {
+          setHeaderRevealed(topbar.getBoundingClientRect().bottom <= 0);
+          return;
+        }
         const hero = document.querySelector(".casaley-hero");
         const threshold = hero ? hero.offsetHeight - 72 : window.innerHeight;
         setHeaderRevealed(window.scrollY > threshold);
@@ -67,10 +74,11 @@
 
     return (
       <div className="casaley-page" id="top">
-        <Header revealed={headerRevealed} formOpen={formOpen} onRegisterClick={() => setFormOpen(true)} />
+        <Header revealed={headerRevealed} />
         <Hero />
+        <AmenityMapSection />
         <PinkSection />
-        <OrangeSection />
+        <LenleighSection />
         <Footer />
         <RegisterForm
           open={formOpen}

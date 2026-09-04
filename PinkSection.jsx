@@ -1,41 +1,65 @@
 const moments = [
   {
-    id: "residences",
-    eyebrow: "Residences",
-    title: "Turnkey homes, polished and complete.",
-    body: "Every Casaley home is delivered finished — landscaped, fenced and detailed to a consistent standard. There is nothing left to specify, coordinate or wait on, so the home is ready to live in or lease from the day it settles.",
-    img: "./assets/residences.jpg",
-  },
-  {
-    id: "opportunity",
-    eyebrow: "Opportunity",
-    title: "Rare potential, ready to be uncovered.",
-    body: "Low-maintenance living, thoughtful design and steady demand in the surrounding area make each home an accessible way to invest with confidence. It is a straightforward entry into one of Melbourne's growing communities, without the risk that comes with building from scratch.",
-    img: "./assets/streetscape.jpg",
-  },
-  {
     id: "location",
     eyebrow: "Location",
-    title: "Local treasures around every corner.",
-    body: "Officer sits in Melbourne's south-east growth corridor, in the City of Cardinia. Schools, shops and parkland are already established, with Officer Station on the Pakenham line and the Princes Freeway close at hand for the run into the city.",
-    img: "./assets/lifestyle.jpg",
+    title: "A connected community.",
+    body: [
+      "Officer has grown into a connected, family-focused community in Melbourne’s south-east. Close to Berwick, Casaley puts schools, retail, recreation, parks and everyday amenity within easy reach.",
+      "Around 50km from Melbourne CBD, Officer is connected by major roads and public transport, including Officer and Cardinia Road stations. Beyond lifestyle, Officer offers strong fundamentals for continued residential and rental demand, supported by affordability, established infrastructure and population growth. Cardinia Shire is forecast to grow by approximately 23% between 2024 and 2034, supporting demand for well-connected housing. Casaley presents an opportunity to invest in a growing area with appeal for both owner-occupiers and renters.",
+    ],
+    img: "./assets/pink-train.jpg",
+    cta: { label: "Download amenity map", href: "./assets/casaley-amenity-map.pdf", download: "Casaley-Amenity-Map.pdf" },
+  },
+  {
+    id: "now-selling",
+    eyebrow: "Now selling",
+    title: "Rare potential, ready to be uncovered.",
+    body: [
+      "Introducing Casaley, a boutique residential community with a unique offering.",
+      "An exclusive collection of just 60 lots, perfected by its Officer location in the heart of Melbourne's south-east. Premium land ready for architecturally designed homes, built by the builder of your choice.",
+    ],
+    // A plan, not a photo: object-fit: cover would crop the numbered lots at
+    // the frame's edges, so this one gets contain instead, with a background
+    // sampled from the artwork's own navy field to letterbox seamlessly at
+    // any frame ratio (the sticky column runs from portrait on tablets to
+    // landscape on wide desktop, with nothing in between to design a single
+    // crop against).
+    img: "./assets/pink-masterplan.jpg",
+    imgFit: "contain",
+    imgBg: "#3b4fa2",
+    cta: { label: "Download masterplan", href: "./assets/casaley-masterplan.pdf", download: "Casaley-Masterplan.pdf" },
+  },
+  {
+    id: "project-updates",
+    eyebrow: "Project updates",
+    title: "Casaley is now selling.",
+    body: ["The opportunity to be part of Casaley has arrived. Sales are now underway, with a selection of homesites available to secure. Whether planning a future home or considering your next property opportunity, now is the time to explore what’s available and find your place within this new Officer community."],
+    img: "./assets/pink-lifestyle.jpg",
   },
 ];
 
 const PinkSection = () => {
-  const [active, setActive] = React.useState(-1);
+  const [active, setActive] = React.useState(0);
   const [imgTop, setImgTop] = React.useState(0);
+  const [imgHeight, setImgHeight] = React.useState(null);
+  const [tailBuffer, setTailBuffer] = React.useState(null);
   const refs       = React.useRef([]);
   const sectionRef = React.useRef(null);
 
-  // Crossfade: activate the moment whose centre has passed 92% of viewport height
+  // Crossfade: activate the moment whose centre has passed 2/3 of viewport
+  // height — i.e. the moment has scrolled up more than a third of the way
+  // up the screen — rather than the moment barely having entered view.
+  const suppressUntil = React.useRef(0);
   React.useEffect(() => {
     let raf = 0;
-    const TRIGGER = 0.92;
+    const TRIGGER = 0.667;
     const pick = () => {
       raf = 0;
+      if (Date.now() < suppressUntil.current) return;
       const trigger = window.innerHeight * TRIGGER;
-      let idx = -1;
+      // Never fall back below the first moment — its image should already be
+      // visible as the section scrolls into view, not a bare background block.
+      let idx = 0;
       for (let i = 0; i < refs.current.length; i++) {
         const el = refs.current[i];
         if (!el) continue;
@@ -45,68 +69,138 @@ const PinkSection = () => {
       setActive(idx);
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(pick); };
+    // Section-nav links jump straight to a moment's top (via scroll-margin-top),
+    // which can land two moments at once past the generous 92% trigger line —
+    // the loose threshold is tuned for organic scroll, not a jump. When the
+    // hash matches a moment, activate it directly and hold the scroll-driven
+    // picker off briefly so it doesn't immediately overwrite that choice.
+    const onHashNav = () => {
+      const id = window.location.hash.slice(1);
+      const idx = moments.findIndex(m => m.id === id);
+      if (idx !== -1) {
+        setActive(idx);
+        suppressUntil.current = Date.now() + 700;
+      }
+    };
     pick();
+    if (window.location.hash) onHashNav();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+    window.addEventListener("hashchange", onHashNav);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      window.removeEventListener("hashchange", onHashNav);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 
-  // Sticky image top — constant per viewport height, recalculated only on resize.
-  // Keeping this out of the scroll handler prevents jitter on the sticky element.
+  // Sticky image size — matches the first moment's own rendered height (its
+  // text frame top to the amenity-map button's bottom), so every crossfaded
+  // image shares one consistent height instead of a viewport-relative one.
+  // Recalculated on resize only, not on scroll, to keep the sticky element
+  // from jittering.
   React.useEffect(() => {
     const update = () => {
-      if (!sectionRef.current) return;
-      if (window.matchMedia('(max-width: 980px)').matches) { setImgTop(0); return; }
-      const imgHeight = window.innerHeight - 560; // matches CSS calc(100vh - 560px)
-      const navH = 64;
-      setImgTop(navH + (window.innerHeight - navH - imgHeight) / 2);
+      if (!sectionRef.current || !refs.current[0]) return;
+      if (window.matchMedia('(max-width: 980px)').matches) { setImgTop(0); setImgHeight(null); setTailBuffer(null); return; }
+      const h = refs.current[0].getBoundingClientRect().height;
+      // --header-h is fluid (3x --hero-edge), not a flat constant, so read
+      // the real rendered header height rather than duplicating the formula.
+      const headerEl = document.querySelector('.casaley-header');
+      const navH = headerEl ? headerEl.getBoundingClientRect().height : 80;
+      setImgHeight(h);
+      const top = navH + (window.innerHeight - navH - h) / 2;
+      setImgTop(top);
+      // The image stays stuck until the grid's bottom edge reaches it, so the
+      // column's trailing buffer is what decides when the pair unsticks. Size
+      // it so the grid ends exactly as the last moment's centre comes level
+      // with the image's centre: from there the image releases and both
+      // columns scroll on together, still aligned, instead of the text
+      // carrying on alone and opening bare pink space beneath it.
+      //   buffer + lastH/2 = h/2   →   buffer = (h - lastH) / 2
+      const lastEl = refs.current[refs.current.length - 1];
+      if (lastEl) {
+        const lastH = lastEl.getBoundingClientRect().height;
+        setTailBuffer(Math.max(0, (h - lastH) / 2));
+      }
     };
     window.addEventListener("resize", update);
     update();
+    // Re-measure once webfonts finish loading — an early measurement can be
+    // taken against fallback-font line heights.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
   return (
-    <section className="casaley-pink" id="residences" ref={sectionRef}>
+    <section className="casaley-pink" ref={sectionRef}>
       <div className="casaley-pink__inner">
         <div className="casaley-pink__grid">
           <div className="casaley-pink__col">
             {moments.map((m, i) => (
               <article
                 key={m.id}
+                id={m.id}
                 ref={el => refs.current[i] = el}
                 className={"casaley-pink__moment" + (i === active ? " is-active" : "")}
+                // Anchor-jump lands the text level with the sticky image's own
+                // resting position, not tucked under the header, so nav clicks
+                // land on a pair that reads as aligned rather than a text block
+                // sitting far above a lower, centred image.
+                style={imgHeight != null ? { scrollMarginTop: imgTop + 'px' } : undefined}
               >
-                <img src={m.img} alt="" className="casaley-pink__moment-img" aria-hidden="true" />
+                <div className="casaley-pink__moment-media" aria-hidden="true">
+                  <img
+                    src={m.img}
+                    alt=""
+                    style={m.imgFit ? { objectFit: m.imgFit, background: m.imgBg } : undefined}
+                  />
+                  {m.placeholder && <span className="casaley-pink__placeholder-badge">Placeholder only</span>}
+                </div>
                 <div className="casaley-pink__moment-num">0{i + 1}</div>
                 <span className="casaley-eyebrow">{m.eyebrow}</span>
                 <h3 className="casaley-pink__moment-title">{m.title}</h3>
-                <p>{m.body}</p>
-                <button type="button" className="casaley-pink__moment-register" data-action="register">
-                  Register your interest
-                </button>
+                {m.body.map((p, pi) => <p key={pi}>{p}</p>)}
+                {m.cta && (
+                  <a
+                    href={m.cta.href}
+                    download={m.cta.download}
+                    className="casaley-pink__moment-register"
+                  >
+                    {m.cta.label}
+                  </a>
+                )}
               </article>
             ))}
+            {/* Trailing buffer, not a moment-to-moment gap: it sets the point
+                where the sticky image releases — measured above so that lands
+                exactly as the last moment comes level with the image. The
+                negative margin cancels the column's own flex gap, which would
+                otherwise add to this and release the pair a gap's worth early. */}
+            {tailBuffer != null && (
+              <div
+                aria-hidden="true"
+                style={{ height: tailBuffer + 'px', marginTop: 'calc(-1 * var(--pink-moment-gap))' }}
+              />
+            )}
           </div>
 
-          <div className="casaley-pink__sticky" style={{ top: imgTop + 'px' }} aria-hidden="true">
+          <div
+            className="casaley-pink__sticky"
+            style={{ top: imgTop + 'px', height: imgHeight != null ? imgHeight + 'px' : undefined }}
+            aria-hidden="true"
+          >
             <div className="casaley-pink__stack">
-              <img
-                src="./assets/detail.jpg"
-                alt=""
-                className={"casaley-pink__img" + (active === -1 ? " is-active" : "")}
-              />
               {moments.map((m, i) => (
-                <img
-                  key={m.id}
-                  src={m.img}
-                  alt=""
-                  className={"casaley-pink__img" + (i === active ? " is-active" : "")}
-                />
+                <div key={m.id} className={"casaley-pink__img" + (i === active ? " is-active" : "")}>
+                  <img
+                    src={m.img}
+                    alt=""
+                    style={m.imgFit ? { objectFit: m.imgFit, background: m.imgBg } : undefined}
+                  />
+                  {m.placeholder && <span className="casaley-pink__placeholder-badge">Placeholder only</span>}
+                </div>
               ))}
             </div>
           </div>

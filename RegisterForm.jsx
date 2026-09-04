@@ -89,10 +89,10 @@ const RegisterForm = ({ open, onOpen, onClose }) => {
             <div className="casaley-rf__row casaley-rf__row--two">
               <RegisterField label="Postcode"     name="postcode"  value={data.postcode} onChange={set("postcode")} />
               <RegisterField label="Enquiring as" name="enquirer"  value={data.enquirer} onChange={set("enquirer")}
-                options={["Investor", "Owner occupier", "Buyer's advocate"]} />
+                options={["Builder", "Investor", "Owner occupier", "Buyer's advocate"]} />
             </div>
             <RegisterField label="Product" name="product" value={data.product} onChange={set("product")}
-              options={["3 bedroom home", "4 bedroom home", "Not sure"]} />
+              options={["House and Land", "Land"]} />
 
             <button type="submit" className="casaley-rf__submit">
               {submitted ? "Thank you ✓" : "Submit"}
